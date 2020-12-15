@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TarkovLens.Models.Services.TarkovDatabase
+namespace TarkovLens.Enums
 {
     public enum KindOfItem
     {
@@ -40,7 +40,7 @@ namespace TarkovLens.Models.Services.TarkovDatabase
         ModificationSight,
         ModificationSightSpecial,
         ModificationStock,
-        ModificationMoney,
+        Money,
         TacticalRig
     }
 }
