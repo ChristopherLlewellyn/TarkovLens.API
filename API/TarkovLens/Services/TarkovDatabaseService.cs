@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using TarkovLens.Models.Services.TarkovDatabase;
@@ -14,6 +15,7 @@ namespace TarkovLens.Services
     public interface ITarkovDatabaseService
     {
         Task<string> GetNewAuthToken();
+        Task<ItemKindsMetadata> GetItemKindsMetadata(string token);
     }
 
     public class TarkovDatabaseService : ITarkovDatabaseService
@@ -31,7 +33,7 @@ namespace TarkovLens.Services
             _appSettings = appSettings.Value;
 
             client.BaseAddress = new Uri(_appSettings.TarkovDatabaseV2BaseUrl);
-            client.DefaultRequestHeaders.Add("User-Agent", _appSettings.AppName);
+            client.DefaultRequestHeaders.Add("User-Agent", $"{_appSettings.AppName}/{_appSettings.Version}");
             httpClient = client;
         }
 
@@ -50,6 +52,20 @@ namespace TarkovLens.Services
             AuthToken newToken = JsonSerializer.Deserialize<AuthToken>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             return newToken.Token;
+        }
+
+        public async Task<ItemKindsMetadata> GetItemKindsMetadata(string token)
+        {
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await httpClient.GetAsync("item");
+            response.EnsureSuccessStatusCode();
+
+            string json = await response.Content.ReadAsStringAsync();
+            var kindsResponse = JsonSerializer.Deserialize<ItemKindsMetadata>(json);
+
+
+            return kindsResponse;
         }
     }
 }

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TarkovLens.Models.Services.TarkovDatabase;
 using TarkovLens.Services;
 
 namespace TarkovLens.Controllers
@@ -40,11 +41,12 @@ namespace TarkovLens.Controllers
             return test;
         }
 
-        [HttpGet("tarkov-database-auth")]
-        public async Task<string> TarkovDatabaseNewAuthToken()
+        [HttpGet("tarkov-database-kinds")]
+        public async Task<ItemKindsMetadata> TarkovDatabaseKinds()
         {
             var token = await _tarkovDatabaseService.GetNewAuthToken();
-            return token;
+            var kindsMetadata = await _tarkovDatabaseService.GetItemKindsMetadata(token);
+            return kindsMetadata;
         }
     }
 
