@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using TarkovLens.Services;
 
 namespace TarkovLens
 {
@@ -60,6 +61,16 @@ namespace TarkovLens
 
             var appSettingsSection = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettingsSection);
+            #endregion
+
+            #region Configure DI for application services
+            services.AddScoped<ITarkovDatabaseService, TarkovDatabaseService>();
+            services.AddScoped<ITarkovMarketService, TarkovMarketService>();
+            #endregion
+
+            #region HTTP Clients
+            services.AddHttpClient<TarkovDatabaseService>();
+            services.AddHttpClient<TarkovMarketService>();
             #endregion
         }
 

@@ -7,7 +7,7 @@ namespace TarkovLens
 {
     public class Secrets
     {
-        public string TarkovDatabaseAPIKey { get; set; }
+        public string TarkovDatabaseInitialAuthToken { get; set; }
         public string TarkovMarketAPIKey { get; set; }
     }
 }

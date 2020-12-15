@@ -7,7 +7,12 @@ using System.Threading.Tasks;
 
 namespace TarkovLens.Services
 {
-    public class TarkovMarketService
+    public interface ITarkovMarketService
+    {
+
+    }
+
+    public class TarkovMarketService : ITarkovMarketService
     {
         private readonly IDocumentSession session;
         private readonly Secrets _secrets;

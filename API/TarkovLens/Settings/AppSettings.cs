@@ -7,6 +7,8 @@ namespace TarkovLens
 {
     public class AppSettings
     {
+        public string AppName { get; set; }
         public string Version { get; set; }
+        public string TarkovDatabaseV2BaseUrl { get; set; }
     }
 }
