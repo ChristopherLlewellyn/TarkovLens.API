@@ -51,6 +51,13 @@ namespace TarkovLens
                     .OpenSession();
             });
             #endregion
+
+            #region Configure strongly typed settings objects
+            // This should be stored in a secrets.json file. Right click the project in solution explorer
+            // and select "Manage User Secrets" to create this file. Use secrets.example.json as a template.
+            var secretsSection = Configuration.GetSection("Secrets");
+            services.Configure<Secrets>(secretsSection);
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
