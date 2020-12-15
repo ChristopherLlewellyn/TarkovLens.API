@@ -57,6 +57,9 @@ namespace TarkovLens
             // and select "Manage User Secrets" to create this file. Use secrets.example.json as a template.
             var secretsSection = Configuration.GetSection("Secrets");
             services.Configure<Secrets>(secretsSection);
+
+            var appSettingsSection = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettingsSection);
             #endregion
         }
 
