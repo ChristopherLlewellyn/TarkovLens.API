@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TarkovLens.Services;
 
 namespace TarkovLens.Controllers
 {
@@ -13,16 +14,19 @@ namespace TarkovLens.Controllers
     public class TestController : ControllerBase
     {
         private readonly IDocumentSession session;
-
         private readonly ILogger<TestController> _logger;
+        private ITarkovDatabaseService _tarkovDatabaseService;
 
-        public TestController(ILogger<TestController> logger, IDocumentSession documentSession)
+        // TEST CONTROLLER FOR TESTING FUNCTIONS
+        // SHOULD BE DELETED AT SOME POINT
+        public TestController(ILogger<TestController> logger, IDocumentSession documentSession, ITarkovDatabaseService tarkovDatabaseService)
         {
             _logger = logger;
             session = documentSession;
+            _tarkovDatabaseService = tarkovDatabaseService;
         }
 
-        [HttpGet]
+        [HttpGet("create")]
         public Test Create()
         {
             var test = new Test()
@@ -34,6 +38,13 @@ namespace TarkovLens.Controllers
             session.SaveChanges();
 
             return test;
+        }
+
+        [HttpGet("tarkov-database-auth")]
+        public async Task<string> TarkovDatabaseNewAuthToken()
+        {
+            var token = await _tarkovDatabaseService.GetNewAuthToken();
+            return token;
         }
     }
 

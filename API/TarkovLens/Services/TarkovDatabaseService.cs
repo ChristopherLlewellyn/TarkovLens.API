@@ -47,7 +47,7 @@ namespace TarkovLens.Services
             response.EnsureSuccessStatusCode();
 
             string json = await response.Content.ReadAsStringAsync();
-            AuthToken newToken = JsonSerializer.Deserialize<AuthToken>(json);
+            AuthToken newToken = JsonSerializer.Deserialize<AuthToken>(json, new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
 
             return newToken.Token;
         }
