@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "RavenDbDotNetCore3.1APITemplate": {
+    "TarkovLens": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "test",

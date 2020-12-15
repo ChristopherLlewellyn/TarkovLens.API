@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/Hhko67hr5yBBIPZdXQBK3pn9TlsLKlzuR4Mr6XMus+rDatpjXocL7HmXvILJ0e/HTMlkBy9Fr4edGqyZtyQSQ==",
+  "dgSpecHash": "yEmUyuwizgglwH+s3+05kNJC8Cu5vCVxcahtqhiyJigJc/Yz0LaO7oiTixR7v18EBlGztEubJSkXXCz++W8ryQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Chris\\Documents\\Workspace\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj",
+  "projectFilePath": "C:\\Users\\Chris\\Documents\\Workspace\\TarkovLens\\RavenDbDotNetCore3.1APITemplate\\TarkovLens.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Chris\\.nuget\\packages\\lambda2js.signed\\3.1.3\\lambda2js.signed.3.1.3.nupkg.sha512",
     "C:\\Users\\Chris\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\5.0.0\\microsoft.bcl.asyncinterfaces.5.0.0.nupkg.sha512",

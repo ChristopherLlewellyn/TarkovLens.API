@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace RavenDbDotNetCore31APITemplate.Controllers
+namespace TarkovLens.Controllers
 {
     [ApiController]
     [Route("[controller]")]

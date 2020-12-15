@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Chris\\Documents\\Workspace\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj": {}
+    "C:\\Users\\Chris\\Documents\\Workspace\\TarkovLens\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Chris\\Documents\\Workspace\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj": {
+    "C:\\Users\\Chris\\Documents\\Workspace\\TarkovLens\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Chris\\Documents\\Workspace\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj",
+        "projectUniqueName": "C:\\Users\\Chris\\Documents\\Workspace\\TarkovLens\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj",
         "projectName": "RavenDbDotNetCore3.1APITemplate",
-        "projectPath": "C:\\Users\\Chris\\Documents\\Workspace\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj",
+        "projectPath": "C:\\Users\\Chris\\Documents\\Workspace\\TarkovLens\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate.csproj",
         "packagesPath": "C:\\Users\\Chris\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Chris\\Documents\\Workspace\\RavenDbDotNetCore3.1APITemplate\\RavenDbDotNetCore3.1APITemplate\\obj\\",
+        "outputPath": "C:\\Users\\Chris\\Documents\\Workspace\\TarkovLens\\RavenDbDotNetCore3.1APITemplate\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Chris\\AppData\\Roaming\\NuGet\\NuGet.Config",

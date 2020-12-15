@@ -14,7 +14,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace RavenDbDotNetCore31APITemplate
+namespace TarkovLens
 {
     public class Startup
     {
