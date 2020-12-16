@@ -29,6 +29,12 @@ namespace TarkovLens.Documents.Items
 
         [JsonPropertyName("weight")]
         public float Weight { get; set; }
+
+        [JsonPropertyName("price")]
+        public int BasePrice { get; set; }
+
+        [JsonPropertyName("maxStack")]
+        public int MaxStack { get; set; }
         #endregion
 
         [JsonPropertyName("caliber")]

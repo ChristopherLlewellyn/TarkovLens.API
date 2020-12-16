@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TarkovLens.Enums;
-using TarkovLens.Enums.Services.TarkovDatabase;
 
 namespace TarkovLens.Documents.Items
 {
-    public class Firearm : IItem
+    public class Backpack : IItem
     {
         #region IItem fields
         public string Id { get; set; }
@@ -38,34 +37,26 @@ namespace TarkovLens.Documents.Items
         public int MaxStack { get; set; }
         #endregion
 
-        [JsonPropertyName("class")]
-        public string Class { get; set; }
+        [JsonPropertyName("grids")]
+        public List<BackpackGrid> Grids { get; set; }
 
-        [JsonPropertyName("caliber")]
-        public string Caliber { get; set; }
+        [JsonPropertyName("penalties")]
+        public Penalties Penalties { get; set; }
+    }
 
-        [JsonPropertyName("ergonomics")]
-        public float Ergonomics { get; set; }
+    public class BackpackGrid
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
 
-        [JsonPropertyName("recoilVertical")]
-        public float RecoilVertical { get; set; }
+        [JsonPropertyName("height")]
+        public int Height { get; set; }
 
-        [JsonPropertyName("recoilHorizontal")]
-        public float RecoilHorizontal { get; set; }
+        [JsonPropertyName("width")]
+        public int Width { get; set; }
 
-        [JsonPropertyName("velocity")]
-        public float Velocity { get; set; }
-
-        [JsonPropertyName("modes")]
-        public string[] Modes { get; set; }
-
-        [JsonPropertyName("rof")]
-        public int RateOfFire { get; set; }
-
-        [JsonPropertyName("type")]
-        public string Type { get; set; }
-
-        [JsonPropertyName("effectiveDist")]
-        public float EffectiveDistance { get; set; }
+        [JsonPropertyName("maxWeight")]
+        public float MaxWeight { get; set; }
     }
 }
+
