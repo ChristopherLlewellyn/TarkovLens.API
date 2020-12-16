@@ -18,9 +18,9 @@ namespace TarkovLens.Services
 {
     public interface ITarkovDatabaseService
     {
-        Task<string> GetNewAuthToken();
-        Task<ItemKindsMetadata> GetItemKindsMetadata(string token);
-        Task<List<T>> GetItemsByKind<T>(string token, KindOfItem kindOfItem) where T : IItem;
+        Task<string> GetNewAuthTokenAsync();
+        Task<ItemKindsMetadata> GetItemKindsMetadataAsync(string token);
+        Task<List<T>> GetItemsByKindAsync<T>(string token, KindOfItem kindOfItem) where T : IItem;
     }
 
     public class TarkovDatabaseService : ITarkovDatabaseService
@@ -42,7 +42,7 @@ namespace TarkovLens.Services
             httpClient = client;
         }
 
-        public async Task<string> GetNewAuthToken()
+        public async Task<string> GetNewAuthTokenAsync()
         {
             // This method needs to be called before any other methods can be used
             // We need a JWT auth token in order to access the Tarkov-Database API
@@ -59,7 +59,7 @@ namespace TarkovLens.Services
             return newToken.Token;
         }
 
-        public async Task<ItemKindsMetadata> GetItemKindsMetadata(string token)
+        public async Task<ItemKindsMetadata> GetItemKindsMetadataAsync(string token)
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -72,7 +72,7 @@ namespace TarkovLens.Services
             return kindsResponse;
         }
 
-        public async Task<List<T>> GetItemsByKind<T>(string token, KindOfItem kindOfItem) where T : IItem
+        public async Task<List<T>> GetItemsByKindAsync<T>(string token, KindOfItem kindOfItem) where T : IItem
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             string kind = kindOfItem.ToString().ToLower();
@@ -88,7 +88,7 @@ namespace TarkovLens.Services
             serializerOptions.PropertyNameCaseInsensitive = true;
             serializerOptions.Converters.Add(new JsonStringEnumConverter());
 
-            var itemResponse = JsonSerializer.Deserialize<GetItemsResponse<T>>(json, serializerOptions);
+            var itemResponse = JsonSerializer.Deserialize<GetItemsByKindResponse<T>>(json, serializerOptions);
             var items = itemResponse.Items;
 
             // Safety precaution. Currently (15/12/2020) there is not more than 500 items of one kind,
@@ -100,7 +100,7 @@ namespace TarkovLens.Services
                 response.EnsureSuccessStatusCode();
 
                 json = await response.Content.ReadAsStringAsync();
-                itemResponse = JsonSerializer.Deserialize<GetItemsResponse<T>>(json, serializerOptions);
+                itemResponse = JsonSerializer.Deserialize<GetItemsByKindResponse<T>>(json, serializerOptions);
 
                 items.AddRange(itemResponse.Items);
                 requests++;

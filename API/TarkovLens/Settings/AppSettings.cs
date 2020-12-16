@@ -10,5 +10,6 @@ namespace TarkovLens
         public string AppName { get; set; }
         public string Version { get; set; }
         public string TarkovDatabaseV2BaseUrl { get; set; }
+        public string TarkovMarketV1BaseUrl { get; set; }
     }
 }

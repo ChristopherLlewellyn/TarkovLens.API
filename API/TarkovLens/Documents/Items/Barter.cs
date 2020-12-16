@@ -9,8 +9,10 @@ namespace TarkovLens.Documents.Items
 {
     public class Barter : IItem
     {
-        #region IItem fields
         public string Id { get; set; }
+        public string BlightbusterIcon => $"https://raw.githubusercontent.com/Blightbuster/EfTIcons/master/uid/{BsgId}.png";
+
+        #region Tarkov-Database fields shared between all items
 
         [JsonPropertyName("_id")]
         public string BsgId { get; set; }
@@ -36,5 +38,30 @@ namespace TarkovLens.Documents.Items
         [JsonPropertyName("maxStack")]
         public int MaxStack { get; set; }
         #endregion
+
+        #region Tarkov-Market fields
+        public int LastLowestMarketPrice { get; set; }
+        public int Avg24hPrice { get; set; }
+        public int Avg7daysPrice { get; set; }
+        public DateTime Updated { get; set; }
+        public double Diff24h { get; set; }
+        public double Diff7days { get; set; }
+        public string Icon { get; set; }
+        public string WikiLink { get; set; }
+        public string Img { get; set; }
+        public string ImgBig { get; set; }
+        #endregion
+
+        public virtual void CopyFrom<T>(T other) where T : IItem
+        {
+            var props = typeof(Barter)
+                .GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+                .Where(p => p.CanWrite);
+            foreach (var prop in props)
+            {
+                var source = prop.GetValue(other);
+                prop.SetValue(this, source);
+            }
+        }
     }
 }

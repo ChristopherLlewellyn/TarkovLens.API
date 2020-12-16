@@ -7,7 +7,7 @@ using TarkovLens.Documents.Items;
 
 namespace TarkovLens.Enums.Services.TarkovDatabase
 {
-    public class GetItemsResponse<T> where T : IItem
+    public class GetItemsByKindResponse<T> where T : IItem
     {
         [JsonPropertyName("total")]
         public int Total { get; set; }

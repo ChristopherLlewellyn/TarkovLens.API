@@ -71,6 +71,7 @@ namespace TarkovLens
             #region Configure DI for application services
             //services.AddScoped<ITarkovDatabaseService, TarkovDatabaseService>(); commented as AddHttpClient registers this service
             //services.AddScoped<ITarkovMarketService, TarkovMarketService>(); commented as AddHttpClient registers this service
+            services.AddScoped<IItemUpdaterService, ItemUpdaterService>();
             #endregion
 
             #region HTTP Clients
