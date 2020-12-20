@@ -7,8 +7,8 @@ using TarkovLens.Enums;
 
 namespace TarkovLens.Documents.Items
 {
-    public class Barter : BaseItem
+    public class Common : BaseItem
     {
-
+        
     }
 }
