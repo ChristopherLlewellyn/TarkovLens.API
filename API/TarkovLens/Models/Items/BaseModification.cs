@@ -12,14 +12,17 @@ namespace TarkovLens.Models.Items
         public int Accuracy { get; set; }
 
         [JsonPropertyName("recoil")]
-        public int Recoil { get; set; }
+        public float Recoil { get; set; }
 
         [JsonPropertyName("ergonomicsFP")]
-        public int ErgonomicsFP { get; set; }
+        public float ErgonomicsFP { get; set; }
 
         [JsonPropertyName("ergonomics")]
         public int Ergonomics { get; set; }
 
+        /// <summary>
+        /// 1 means yes, 2 means no
+        /// </summary>
         [JsonPropertyName("raidModdable")]
         public int RaidModdable { get; set; }
 

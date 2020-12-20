@@ -58,7 +58,7 @@ namespace TarkovLens.Models.Items
         public int FadeOut { get; set; }
 
         [JsonPropertyName("chance")]
-        public int Chance { get; set; }
+        public float Chance { get; set; }
 
         [JsonPropertyName("delay")]
         public int Delay { get; set; }

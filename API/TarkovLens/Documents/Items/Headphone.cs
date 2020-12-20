@@ -31,7 +31,7 @@ namespace TarkovLens.Documents.Items
         public int CutoffFreq { get; set; }
 
         [JsonPropertyName("resonance")]
-        public int Resonance { get; set; }
+        public float Resonance { get; set; }
     }
 
     public class Compressor

@@ -68,7 +68,7 @@ namespace TarkovLens.Models.Items
 
         public virtual void CopyFrom<T>(T other) where T : IItem
         {
-            var props = typeof(Armor)
+            var props = typeof(T)
                 .GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
                 .Where(p => p.CanWrite);
             foreach (var prop in props)

@@ -27,7 +27,7 @@ namespace TarkovLens.Models.Items
         public List<string> ContainerIds { get; set; }
 
         [JsonPropertyName("firearm")]
-        public List<string> Firearm { get; set; }
+        public List<string> FirearmIds { get; set; }
 
         [JsonPropertyName("food")]
         public List<string> FoodIds { get; set; }
@@ -105,6 +105,9 @@ namespace TarkovLens.Models.Items
         public List<string> ModificationStockIds { get; set; }
 
         [JsonPropertyName("money")]
-        public List<string> Money { get; set; }
+        public List<string> MoneyIds { get; set; }
+
+        [JsonPropertyName("tacticalrig")]
+        public List<string> TacticalrigIds { get; set; }
     }
 }

@@ -35,12 +35,12 @@ namespace TarkovLens.Enums
         ModificationLauncher,
         ModificationMount,
         ModificationMuzzle,
-        ModificationPistolGrip,
+        ModificationPistolgrip,
         ModificationReceiver,
         ModificationSight,
         ModificationSightSpecial,
         ModificationStock,
         Money,
-        TacticalRig
+        Tacticalrig
     }
 }
