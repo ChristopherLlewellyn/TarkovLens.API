@@ -44,11 +44,11 @@ namespace TarkovLens.Models.Items
         [JsonPropertyName("maxStack")]
         public int MaxStack { get; set; }
 
-        /// <summary>
-        /// TODO: when all item rarities are known, change this to an enum
-        /// </summary>
         [JsonPropertyName("rarity")]
-        public string Rarity { get; set; }
+        public Rarity Rarity { get; set; }
+
+        [JsonPropertyName("grid")]
+        public Grid Grid { get; set; }
         #endregion
 
         #region Tarkov-Market fields

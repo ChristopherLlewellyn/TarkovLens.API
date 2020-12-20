@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using TarkovLens.Documents;
 using TarkovLens.Documents.Items;
 using TarkovLens.Enums;
+using TarkovLens.Helpers.ExtensionMethods;
 using TarkovLens.Interfaces;
 
 namespace TarkovLens.Services.TarkovDatabase
@@ -75,7 +76,7 @@ namespace TarkovLens.Services.TarkovDatabase
         public async Task<List<T>> GetItemsByKindAsync<T>(string token, KindOfItem kindOfItem) where T : IItem
         {
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
-            string kind = kindOfItem.ToString().ToLower();
+            string kind = kindOfItem.ToString().ToCamelCase();
             int maxLimit = 100;
 
             var response = await httpClient.GetAsync($"item/{kind}?limit={maxLimit}");

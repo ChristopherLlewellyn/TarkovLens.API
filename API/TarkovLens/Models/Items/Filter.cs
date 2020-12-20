@@ -26,6 +26,9 @@ namespace TarkovLens.Models.Items
         [JsonPropertyName("container")]
         public List<string> ContainerIds { get; set; }
 
+        [JsonPropertyName("firearm")]
+        public List<string> Firearm { get; set; }
+
         [JsonPropertyName("food")]
         public List<string> FoodIds { get; set; }
 
