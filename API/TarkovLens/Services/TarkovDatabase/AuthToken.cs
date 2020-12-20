@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TarkovLens.Enums.Services.TarkovDatabase
+namespace TarkovLens.Services.TarkovDatabase
 {
     public class AuthToken
     {

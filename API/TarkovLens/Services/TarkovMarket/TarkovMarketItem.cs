@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TarkovLens.Models.Services.TarkovMarket
+namespace TarkovLens.Services.TarkovMarket
 {
     public class TarkovMarketItem
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TarkovLens.Enums;
-using TarkovLens.Enums.Services.TarkovDatabase;
+using TarkovLens.Models.Items;
 
 namespace TarkovLens.Documents.Items
 {

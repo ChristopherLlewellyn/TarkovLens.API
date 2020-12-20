@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using TarkovLens.Documents.Items;
 using TarkovLens.Enums;
 using TarkovLens.Helpers.ExtensionMethods;
-using TarkovLens.Models.Services.TarkovMarket;
+using TarkovLens.Interfaces;
+using TarkovLens.Services.TarkovDatabase;
+using TarkovLens.Services.TarkovMarket;
 
 namespace TarkovLens.Services
 {

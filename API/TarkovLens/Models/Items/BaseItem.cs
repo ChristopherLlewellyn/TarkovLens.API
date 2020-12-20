@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using TarkovLens.Documents.Items;
 using TarkovLens.Enums;
+using TarkovLens.Interfaces;
 
-namespace TarkovLens.Documents.Items
+namespace TarkovLens.Models.Items
 {
-    public class BaseItem : IItem
+    public abstract class BaseItem : IItem
     {
         public string Id { get; set; }
 
@@ -41,6 +43,12 @@ namespace TarkovLens.Documents.Items
 
         [JsonPropertyName("maxStack")]
         public int MaxStack { get; set; }
+
+        /// <summary>
+        /// TODO: when all item rarities are known, change this to an enum
+        /// </summary>
+        [JsonPropertyName("rarity")]
+        public string Rarity { get; set; }
         #endregion
 
         #region Tarkov-Market fields

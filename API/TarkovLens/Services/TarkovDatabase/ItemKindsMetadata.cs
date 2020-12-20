@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace TarkovLens.Enums.Services.TarkovDatabase
+namespace TarkovLens.Services.TarkovDatabase
 {
     // ItemKindsResponse itemKindsResponse = JsonSerializer.Deserialize<ItemKindsResponse>(myJsonResponse);
     public class ItemKindsMetadata

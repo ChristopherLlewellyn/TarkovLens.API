@@ -15,6 +15,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TarkovLens.Services;
+using TarkovLens.Services.TarkovDatabase;
 
 namespace TarkovLens
 {

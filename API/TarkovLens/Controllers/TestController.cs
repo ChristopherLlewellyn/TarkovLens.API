@@ -7,8 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TarkovLens.Documents.Items;
 using TarkovLens.Enums;
-using TarkovLens.Enums.Services.TarkovDatabase;
 using TarkovLens.Services;
+using TarkovLens.Services.TarkovDatabase;
 
 namespace TarkovLens.Controllers
 {

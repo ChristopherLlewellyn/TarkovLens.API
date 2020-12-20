@@ -1,7 +1,7 @@
 ﻿using System;
 using TarkovLens.Enums;
 
-namespace TarkovLens.Documents.Items
+namespace TarkovLens.Interfaces
 {
     public interface IItem
     {

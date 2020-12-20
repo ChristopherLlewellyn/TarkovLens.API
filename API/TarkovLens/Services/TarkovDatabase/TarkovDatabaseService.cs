@@ -12,9 +12,9 @@ using System.Threading.Tasks;
 using TarkovLens.Documents;
 using TarkovLens.Documents.Items;
 using TarkovLens.Enums;
-using TarkovLens.Enums.Services.TarkovDatabase;
+using TarkovLens.Interfaces;
 
-namespace TarkovLens.Services
+namespace TarkovLens.Services.TarkovDatabase
 {
     public interface ITarkovDatabaseService
     {

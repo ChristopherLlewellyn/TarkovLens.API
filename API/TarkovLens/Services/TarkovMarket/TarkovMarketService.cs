@@ -8,7 +8,7 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using TarkovLens.Models.Services.TarkovMarket;
+using TarkovLens.Services.TarkovMarket;
 
 namespace TarkovLens.Services
 {

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
-using TarkovLens.Documents.Items;
+using TarkovLens.Interfaces;
 
-namespace TarkovLens.Enums.Services.TarkovDatabase
+namespace TarkovLens.Services.TarkovDatabase
 {
     public class GetItemsByKindResponse<T> where T : IItem
     {
