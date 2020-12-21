@@ -70,6 +70,13 @@ namespace TarkovLens.Controllers
             await _itemUpdaterService.UpdateAllItemsAsync();
             return Ok();
         }
+
+        [HttpGet("item")]
+        public async Task<IActionResult> UpdateItems(string name)
+        {
+            await _itemUpdaterService.UpdateAllItemsAsync();
+            return Ok();
+        }
     }
 
     public class Test

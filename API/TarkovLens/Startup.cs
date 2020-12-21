@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Raven.Client.Documents;
+using Raven.Client.Documents.Indexes;
 using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using TarkovLens.Indexes;
 using TarkovLens.Services;
 using TarkovLens.Services.TarkovDatabase;
 
@@ -57,6 +59,10 @@ namespace TarkovLens
                     .GetService<IDocumentStore>()
                     .OpenSession();
             });
+
+            // Register Indexes
+            new Item_Smart_Search().Execute(store);
+            new Items_ByName_ForAll().Execute(store);
             #endregion
 
             #region Configure strongly typed settings objects
