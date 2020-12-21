@@ -17,6 +17,7 @@ using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TarkovLens.Indexes;
 using TarkovLens.Services;
+using TarkovLens.Services.Item;
 using TarkovLens.Services.TarkovDatabase;
 
 namespace TarkovLens
@@ -79,6 +80,7 @@ namespace TarkovLens
             //services.AddScoped<ITarkovDatabaseService, TarkovDatabaseService>(); commented as AddHttpClient registers this service
             //services.AddScoped<ITarkovMarketService, TarkovMarketService>(); commented as AddHttpClient registers this service
             services.AddScoped<IItemUpdaterService, ItemUpdaterService>();
+            services.AddScoped<IItemService, ItemService>();
             #endregion
 
             #region HTTP Clients

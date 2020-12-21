@@ -11,11 +11,13 @@ namespace TarkovLens.Models.Items
 {
     public abstract class BaseItem : IItem
     {
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
         /// <summary>
         /// This may not actually link to an image. Certain items (ones that can be modified, e.g. Altyn) will not have an image.
         /// </summary>
+        [JsonPropertyName("blightbusterIcon")]
         public string BlightbusterIcon => $"https://raw.githubusercontent.com/Blightbuster/EfTIcons/master/uid/{BsgId}.png";
 
         #region Tarkov-Database fields shared between all items
@@ -52,15 +54,34 @@ namespace TarkovLens.Models.Items
         #endregion
 
         #region Tarkov-Market fields
+        [JsonPropertyName("lastLowestMarketPrice")]
         public int LastLowestMarketPrice { get; set; }
+
+        [JsonPropertyName("avg24hPrice")]
         public int Avg24hPrice { get; set; }
+
+        [JsonPropertyName("avg7daysPrice")]
         public int Avg7daysPrice { get; set; }
+
+        [JsonPropertyName("updated")]
         public DateTime Updated { get; set; }
+
+        [JsonPropertyName("diff24h")]
         public double Diff24h { get; set; }
+
+        [JsonPropertyName("diff7days")]
         public double Diff7days { get; set; }
+
+        [JsonPropertyName("icon")]
         public string Icon { get; set; }
+
+        [JsonPropertyName("wikiLink")]
         public string WikiLink { get; set; }
+
+        [JsonPropertyName("img")]
         public string Img { get; set; }
+
+        [JsonPropertyName("imgBig")]
         public string ImgBig { get; set; }
         #endregion
 
