@@ -1,3 +1,5 @@
+using Hangfire;
+using Hangfire.Raven.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -87,10 +89,20 @@ namespace TarkovLens
             services.AddHttpClient<ITarkovDatabaseService, TarkovDatabaseService>();
             services.AddHttpClient<ITarkovMarketService, TarkovMarketService>();
             #endregion
+
+            #region Hangfire automatic jobs
+            services.AddHangfire(options =>
+            {
+                options.UseRavenStorage(ravenSettings.Database.Urls.First(), ravenSettings.Database.DatabaseName);
+            });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app,
+                              IWebHostEnvironment env,
+                              IServiceProvider serviceProvider,
+                              IRecurringJobManager recurringJobManager)
         {
             if (env.IsDevelopment())
             {
@@ -102,6 +114,19 @@ namespace TarkovLens
             app.UseRouting();
 
             app.UseAuthorization();
+
+            #region Hangfire background jobs
+            app.UseHangfireDashboard();
+            app.UseHangfireServer(new BackgroundJobServerOptions // reduces CPU usage of the dashboard by reducing Hangfire's "heartbeat"
+            {
+                HeartbeatInterval = new System.TimeSpan(0, 1, 0),
+                ServerCheckInterval = new System.TimeSpan(0, 1, 0),
+                SchedulePollingInterval = new System.TimeSpan(0, 1, 0)
+            });
+            recurringJobManager.AddOrUpdate("Update items",
+                                            () => serviceProvider.GetService<IItemUpdaterService>().UpdateAllItemsAsync(),
+                                            "15 * * * *", TimeZoneInfo.Local);
+            #endregion
 
             app.UseEndpoints(endpoints =>
             {
