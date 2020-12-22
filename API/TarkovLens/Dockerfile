@@ -8,6 +8,7 @@ WORKDIR /src
 COPY ["TarkovLens.csproj", "./"]
 RUN dotnet restore "TarkovLens.csproj"
 COPY . .
+WORKDIR "/src/."
 RUN dotnet build "TarkovLens.csproj" -c Release -o /app/build
 
 FROM build AS publish

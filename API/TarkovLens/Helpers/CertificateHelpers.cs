@@ -18,7 +18,7 @@ namespace TarkovLens.Helpers
         /// <returns></returns>
         public static X509Certificate2 CreateRavenCertificate(string crt, string key)
         {
-            byte[] certificateBytes = Encoding.Unicode.GetBytes(crt);
+            byte[] certificateBytes = Convert.FromBase64String(crt);
             var certificate = new X509Certificate2(certificateBytes);
             byte[] privateKey = Convert.FromBase64String(key);
 
