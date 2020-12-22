@@ -2,21 +2,16 @@ using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Raven.Client.Documents;
-using Raven.Client.Documents.Indexes;
 using Raven.Client.Documents.Session;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+using TarkovLens.Helpers;
+using TarkovLens.Helpers.ExtensionMethods;
 using TarkovLens.Indexes;
 using TarkovLens.Services;
 using TarkovLens.Services.Item;
@@ -46,11 +41,21 @@ namespace TarkovLens
             RavenSettings ravenSettings = new RavenSettings();
             Configuration.Bind(ravenSettings);
 
+            X509Certificate2 certificate = new X509Certificate2();
+            if (ravenSettings.Database.RawCert.IsNotNullOrEmpty() && ravenSettings.Database.RawCertKey.IsNotNullOrEmpty())
+            {
+                certificate = CertificateHelpers.CreateRavenCertificate(ravenSettings.Database.RawCert, ravenSettings.Database.RawCertKey);
+            }
+            else
+            {
+                certificate = new X509Certificate2(ravenSettings.Database.CertPath, ravenSettings.Database.CertPass);
+            }
+
             DocumentStore store = new DocumentStore
             {
                 Urls = ravenSettings.Database.Urls,
                 Database = ravenSettings.Database.DatabaseName,
-                Certificate = new X509Certificate2(ravenSettings.Database.CertPath, ravenSettings.Database.CertPass)
+                Certificate = certificate
             };
 
             store.Initialize();
