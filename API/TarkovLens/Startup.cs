@@ -1,5 +1,5 @@
 using Hangfire;
-using Hangfire.Raven.Storage;
+using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -50,6 +50,7 @@ namespace TarkovLens
             {
                 Urls = ravenSettings.Database.Urls,
                 Database = ravenSettings.Database.DatabaseName,
+                Certificate = new X509Certificate2(ravenSettings.Database.CertPath, ravenSettings.Database.CertPass)
             };
 
             store.Initialize();
@@ -91,10 +92,13 @@ namespace TarkovLens
             #endregion
 
             #region Hangfire automatic jobs
-            services.AddHangfire(options =>
-            {
-                options.UseRavenStorage(ravenSettings.Database.Urls.First(), ravenSettings.Database.DatabaseName);
-            });
+            services.AddHangfire(config =>
+                config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                .UseSimpleAssemblyNameTypeSerializer()
+                .UseDefaultTypeSerializer()
+                .UseMemoryStorage());
+
+            services.AddHangfireServer();
             #endregion
         }
 
