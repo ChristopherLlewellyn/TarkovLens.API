@@ -4,7 +4,7 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY TarkovLens.csproj .
+COPY ["TarkovLens.csproj", "./"]
 RUN dotnet restore "TarkovLens.csproj"
 COPY . .
 RUN dotnet build "TarkovLens.csproj" -c Release -o /app/build
