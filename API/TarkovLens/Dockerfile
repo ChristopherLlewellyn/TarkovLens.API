@@ -3,9 +3,7 @@ WORKDIR /app
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
-RUN ls
 WORKDIR /src
-RUN ls
 COPY TarkovLens.csproj .
 RUN dotnet restore "TarkovLens.csproj"
 COPY . .
