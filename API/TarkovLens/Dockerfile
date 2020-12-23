@@ -6,7 +6,7 @@ FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 RUN ls
 WORKDIR /src
 RUN ls
-COPY ["TarkovLens.csproj", "./"]
+COPY TarkovLens.csproj .
 RUN dotnet restore "TarkovLens.csproj"
 COPY . .
 RUN dotnet build "TarkovLens.csproj" -c Release -o /app/build
