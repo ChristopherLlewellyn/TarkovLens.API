@@ -1,3 +1,5 @@
+RUN touch .env
+
 FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
 WORKDIR /app
 EXPOSE 80
