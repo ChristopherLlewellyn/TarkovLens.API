@@ -23,11 +23,18 @@ namespace TarkovLens
     {
         public Startup(IWebHostEnvironment env)
         {
+            // Add appsettings, user secrets, environment variables
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
-                .AddEnvironmentVariables();
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            if (env.IsDevelopment())
+            {
+                builder.AddUserSecrets<Program>();
+            }
+
+            builder.AddEnvironmentVariables();
 
             Configuration = builder.Build();
         }

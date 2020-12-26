@@ -1,4 +1,5 @@
-﻿using Raven.Client.Documents.Linq;
+﻿using Hangfire;
+using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace TarkovLens.Services
             _tarkovMarketService = tarkovMarketService;
         }
 
+        [AutomaticRetry(Attempts = 0)]
         public async Task UpdateAllItemsAsync()
         {
             #region Fetch items from Tarkov-Database
@@ -158,7 +160,7 @@ namespace TarkovLens.Services
         private void CreateOrUpdateItems<T>(IEnumerable<T> items) where T : IItem
         {
             var bsgIds = items.Select(x => x.BsgId).ToList();
-            session.Advanced.MaxNumberOfRequestsPerSession += 1;
+            session.Advanced.MaxNumberOfRequestsPerSession += 1; // Naughty, but this will only happen for as many different item kinds there are
             var existingItems = session
                 .Query<T>()
                 .Where(x => x.BsgId.In(bsgIds))
@@ -176,13 +178,22 @@ namespace TarkovLens.Services
             }
 
             // Create new items
-            List<T> newItems = new List<T>();
             var existingItemsBsgIds = existingItems.Select(x => x.BsgId).ToList();
             foreach (var item in items)
             {
                 if (!existingItemsBsgIds.Contains(item.BsgId))
                 {
                     session.Store(item);
+                }
+            }
+
+            // Delete any items BSG has deleted (don't know if they do this but just in case)
+            var itemsBsgIds = items.Select(x => x.BsgId).ToList();
+            foreach (var existingItem in existingItems)
+            {
+                if (!itemsBsgIds.Contains(existingItem.BsgId))
+                {
+                    session.Delete(existingItem);
                 }
             }
         }
