@@ -138,7 +138,10 @@ namespace TarkovLens
             app.UseAuthorization();
 
             #region Hangfire background jobs
-            app.UseHangfireDashboard();
+            if (env.IsDevelopment())
+            {
+                app.UseHangfireDashboard();
+            }
             app.UseHangfireServer(new BackgroundJobServerOptions // reduces CPU usage of the dashboard by reducing Hangfire's "heartbeat"
             {
                 HeartbeatInterval = new System.TimeSpan(0, 1, 0),
