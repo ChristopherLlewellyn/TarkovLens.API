@@ -82,7 +82,7 @@ namespace TarkovLens.Services.Item
 
             if (caliber.IsNotNullOrEmpty())
             {
-                var words = name.Split().Select(x => x).ToList();
+                var words = caliber.Split().Select(x => x).ToList();
                 foreach (var word in words)
                 {
                     query = query.Search(x => x.Caliber, $"*{caliber}*", options: SearchOptions.And);
