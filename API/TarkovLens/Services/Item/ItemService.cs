@@ -41,11 +41,15 @@ namespace TarkovLens.Services.Item
 
         public List<IItem> GetItemsByName(string name)
         {
-            var items = session
-                    .Query<IItem, Items_ByName_ForAll>()
-                    .Search(x => x.Name, $"*{name}*") // The stars (*) on either side mean it can match anywhere in the string
-                    .ToList();
+            var query = session.Query<IItem, Items_ByName_ForAll>();
 
+            var words = name.Split().Select(x => x).ToList();
+            foreach (var word in words)
+            {
+                query = query.Search(x => x.Name, $"*{word}*", options: SearchOptions.And);
+            }
+
+            var items = query.ToList();
             return items;
         }
         
@@ -61,7 +65,11 @@ namespace TarkovLens.Services.Item
 
             if (name.IsNotNull())
             {
-                itemsQuery = itemsQuery.Search(x => x.Name, $"*{name}*");
+                var words = name.Split().Select(x => x).ToList();
+                foreach (var word in words)
+                {
+                    itemsQuery = itemsQuery.Search(x => x.Name, $"*{word}*", options: SearchOptions.And);
+                }
             }
 
             List<T> items = itemsQuery.ToList();
@@ -70,17 +78,27 @@ namespace TarkovLens.Services.Item
 
         public List<Ammunition> GetAmmunitionByCaliber(string caliber, string name = null)
         {
-            var query = session
-                .Query<Ammunition>()
-                .Search(x => x.Caliber, $"*{caliber}*");
+            var query = session.Query<Ammunition>();
+
+            if (caliber.IsNotNullOrEmpty())
+            {
+                var words = name.Split().Select(x => x).ToList();
+                foreach (var word in words)
+                {
+                    query = query.Search(x => x.Caliber, $"*{caliber}*", options: SearchOptions.And);
+                }
+            }
 
             if (name.IsNotNullOrEmpty())
             {
-                query = query.Search(x => x.Name, $"*{name}*", options: SearchOptions.And);
+                var words = name.Split().Select(x => x).ToList();
+                foreach (var word in words)
+                {
+                    query = query.Search(x => x.Name, $"*{word}*", options: SearchOptions.And);
+                }
             }
 
             var ammunitions = query.ToList();
-
             return ammunitions;
         }
     }
