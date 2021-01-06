@@ -57,13 +57,14 @@ namespace TarkovLens.Controllers
         }
 
         /// <summary>
-        /// Search items by kind, with optional name parameter for filtering by item name.
+        /// Search items by kind, with optional parameters for filtering by different attributes where possible.
         /// </summary>
-        /// <param name="kind"></param>
-        /// <param name="name"></param>
+        /// <param name="kind">MANDATORY - The kind of item to search for</param>
+        /// <param name="name">OPTIONAL - the name of the item</param>
+        /// <param name="caliber">OPTIONAL - the caliber of the item</param>
         /// <returns>List of items.</returns>
         [HttpGet("kind/{kind}")]
-        public IActionResult GetByKindAndName(KindOfItem kind, string name = null)
+        public IActionResult GetByKindAndName(KindOfItem kind, string name = null, string caliber = null)
         {
             if (kind.IsNull())
             {
@@ -75,7 +76,15 @@ namespace TarkovLens.Controllers
                 #region Kinds
 
                 case KindOfItem.Ammunition:
-                    var ammunition = _itemService.GetItemsByKindAndName<Ammunition>(name);
+                    var ammunition = new List<Ammunition>();
+                    if (caliber.IsNotNullOrEmpty())
+                    {
+                        ammunition = _itemService.GetAmmunitionByCaliber(caliber);
+                    }
+                    else
+                    {
+                        ammunition = _itemService.GetItemsByKindAndName<Ammunition>(name);
+                    }
                     return Ok(ammunition);
 
                 case KindOfItem.Armor:

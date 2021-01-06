@@ -18,6 +18,7 @@ namespace TarkovLens.Services.Item
         public IItem GetItemById(string id);
         public List<IItem> GetItemsByName(string name);
         public List<T> GetItemsByKindAndName<T>(string name) where T : IItem;
+        public List<Ammunition> GetAmmunitionByCaliber(string caliber);
     }
 
     public class ItemService : IItemService
@@ -65,6 +66,16 @@ namespace TarkovLens.Services.Item
 
             List<T> items = itemsQuery.ToList();
             return items;
+        }
+
+        public List<Ammunition> GetAmmunitionByCaliber(string caliber)
+        {
+            var ammunitions = session
+                .Query<Ammunition>()
+                .Search(x => x.Caliber, $"*{caliber}*")
+                .ToList();
+
+            return ammunitions;
         }
     }
 }
