@@ -79,7 +79,7 @@ namespace TarkovLens.Controllers
                     var ammunition = new List<Ammunition>();
                     if (caliber.IsNotNullOrEmpty())
                     {
-                        ammunition = _itemService.GetAmmunitionByCaliber(caliber);
+                        ammunition = _itemService.GetAmmunitionByCaliber(caliber, name);
                     }
                     else
                     {
