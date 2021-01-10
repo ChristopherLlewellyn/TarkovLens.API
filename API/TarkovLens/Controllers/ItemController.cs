@@ -32,13 +32,17 @@ namespace TarkovLens.Controllers
             _itemService = itemService;
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
             if (id.IsNullOrEmpty())
             {
                 return BadRequest("Missing parameters: \"id\"");
             }
+
+            // When we pass the Id in the route, we should use "-" instead of "/"
+            // Then we should convert it back to a RavenId
+            id = id.ReplaceFirst("-", "/");
 
             IItem item = _itemService.GetItemById(id);
             return Ok(item);
@@ -64,7 +68,7 @@ namespace TarkovLens.Controllers
         /// <param name="caliber">OPTIONAL - the caliber of the item</param>
         /// <returns>List of items.</returns>
         [HttpGet("kind/{kind}")]
-        public IActionResult GetByKindAndName(KindOfItem kind, string name = null, string caliber = null)
+        public IActionResult Kind(KindOfItem kind, string name = null, string caliber = null)
         {
             if (kind.IsNull())
             {

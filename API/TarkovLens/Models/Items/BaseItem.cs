@@ -9,7 +9,7 @@ using TarkovLens.Interfaces;
 
 namespace TarkovLens.Models.Items
 {
-    public abstract class BaseItem : IItem
+    public class BaseItem : IItem
     {
         [JsonPropertyName("id")]
         public string Id { get; set; }
