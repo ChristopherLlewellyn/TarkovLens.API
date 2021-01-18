@@ -18,7 +18,7 @@ using TarkovLens.Services.TarkovDatabase;
 namespace TarkovLens.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     public class ItemController : ControllerBase
     {
         private readonly IDocumentSession session;

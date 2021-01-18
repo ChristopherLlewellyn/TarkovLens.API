@@ -8,7 +8,7 @@ namespace TarkovLens.Contracts
 {
     public static class ApiRoutes
     {
-        private static readonly string _baseUrl = "api/";
+        private static readonly string _baseUrl = "";
 
         public static class Items
         {
