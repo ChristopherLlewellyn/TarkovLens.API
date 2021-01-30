@@ -50,6 +50,7 @@ namespace TarkovLens.Services.Item
             }
 
             var items = query.ToList();
+            items = items.OrderBy(x => x.Name.Length).ToList();
             return items;
         }
         

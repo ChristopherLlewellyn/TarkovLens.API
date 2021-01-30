@@ -80,20 +80,20 @@ namespace TarkovLens.Controllers
                 #region Kinds
 
                 case KindOfItem.Ammunition:
-                    var ammunition = new List<Ammunition>();
+                    var ammunitions = new List<Ammunition>();
                     if (caliber.IsNotNullOrEmpty())
                     {
-                        ammunition = _itemService.GetAmmunitionByCaliber(caliber, name);
+                        ammunitions = _itemService.GetAmmunitionByCaliber(caliber, name);
                     }
                     else
                     {
-                        ammunition = _itemService.GetItemsByKindAndName<Ammunition>(name);
+                        ammunitions = _itemService.GetItemsByKindAndName<Ammunition>(name);
                     }
-                    return Ok(ammunition);
+                    return Ok(ammunitions);
 
                 case KindOfItem.Armor:
-                    var armor = _itemService.GetItemsByKindAndName<Armor>(name);
-                    return Ok(armor);
+                    var armors = _itemService.GetItemsByKindAndName<Armor>(name);
+                    return Ok(armors);
 
                 case KindOfItem.Backpack:
                     var backpacks = _itemService.GetItemsByKindAndName<Ammunition>(name);
