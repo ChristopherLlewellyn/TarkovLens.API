@@ -4,6 +4,7 @@ using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TarkovLens.Documents.Items;
@@ -45,6 +46,11 @@ namespace TarkovLens.Controllers
             id = id.ReplaceFirst("-", "/");
 
             IItem item = _itemService.GetItemById(id);
+            if (item.IsNull())
+            {
+                return NotFound();
+            }
+
             return Ok(item);
         }
 
