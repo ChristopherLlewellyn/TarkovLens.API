@@ -140,7 +140,7 @@ namespace TarkovLens
             #region Hangfire background jobs
             if (env.IsDevelopment())
             {
-                app.UseHangfireDashboard("");
+                app.UseHangfireDashboard("/hangfire");
             }
             app.UseHangfireServer(new BackgroundJobServerOptions // reduces CPU usage of the dashboard by reducing Hangfire's "heartbeat"
             {

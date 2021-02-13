@@ -10,13 +10,14 @@ using TarkovLens.Helpers;
 using TarkovLens.Helpers.ExtensionMethods;
 using TarkovLens.Indexes;
 using TarkovLens.Interfaces;
+using TarkovLens.Models.Items;
 
 namespace TarkovLens.Services.Item
 {
     public interface IItemService
     {
         public IItem GetItemById(string id);
-        public List<IItem> GetItemsByName(string name);
+        public List<BaseItem> GetItemsByName(string name);
         public List<T> GetItemsByKindAndName<T>(string name) where T : IItem;
         public List<Ammunition> GetAmmunitionByCaliber(string caliber, string name);
     }
@@ -39,9 +40,9 @@ namespace TarkovLens.Services.Item
             return item;
         }
 
-        public List<IItem> GetItemsByName(string name)
+        public List<BaseItem> GetItemsByName(string name)
         {
-            var query = session.Query<IItem, Items_ByName_ForAll>();
+            var query = session.Query<BaseItem, Items_ByName_ForAll>();
 
             var words = name.Split().Select(x => x).ToList();
             foreach (var word in words)
