@@ -14,5 +14,8 @@ namespace TarkovLens.Documents.Items
 
         [JsonPropertyName("penalties")]
         public Penalties Penalties { get; set; }
+
+        [JsonPropertyName("armor")]
+        public ArmorProperties Armor { get; set; }
     }
 }
