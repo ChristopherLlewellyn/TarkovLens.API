@@ -93,6 +93,7 @@ namespace TarkovLens
             // Register Indexes
             new Item_Smart_Search().Execute(store);
             new Items_ByName_ForAll().Execute(store);
+            new Characters_ByType().Execute(store);
             #endregion
 
             #region Configure strongly typed settings objects
@@ -110,6 +111,7 @@ namespace TarkovLens
             //services.AddScoped<ITarkovMarketService, TarkovMarketService>(); commented as AddHttpClient registers this service
             services.AddScoped<IItemUpdaterService, ItemUpdaterService>();
             services.AddScoped<IItemService, ItemService>();
+            services.AddScoped<ICharacterService, CharacterService>();
             #endregion
 
             #region HTTP Clients
