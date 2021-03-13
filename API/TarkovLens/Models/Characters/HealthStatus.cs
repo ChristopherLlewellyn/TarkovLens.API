@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using TarkovLens.Helpers.ExtensionMethods;
 
@@ -27,7 +28,10 @@ namespace TarkovLens.Models.Characters
         }
 
         public int MaxHp => this.GetMaxHp();
+
+        [JsonIgnore]
         public int CurrentHp => this.GetCurrentHp();
+
         public BodyPart Head { get; set; }
         public BodyPart Thorax { get; set; }
         public BodyPart Stomach { get; set; }
