@@ -38,6 +38,8 @@ namespace TarkovLens.Controllers
         public IActionResult GetAll()
         {
             IEnumerable<ICharacter> characters = _characterService.GetAll();
+            characters = characters.OrderBy(x => x.Name);
+
             return Ok(characters);
         }
 
@@ -71,6 +73,8 @@ namespace TarkovLens.Controllers
             }
 
             IEnumerable<ICharacter> characters = _characterService.GetCharactersByType(type);
+            characters = characters.OrderBy(x => x.Name);
+
             return Ok(characters);
         }
 
@@ -78,6 +82,8 @@ namespace TarkovLens.Controllers
         public IActionResult GetCombatants()
         {
             IEnumerable<Combatant> combatants = _characterService.GetCombatants();
+            combatants = combatants.OrderBy(x => x.Name);
+
             return Ok(combatants);
         }
     }
