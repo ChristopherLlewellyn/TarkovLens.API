@@ -55,7 +55,8 @@ namespace TarkovLens
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(builder => 
-                    builder.WithOrigins(appSettings.AllowedHosts));
+                    builder.WithOrigins(appSettings.AllowedHosts)
+                    .SetIsOriginAllowedToAllowWildcardSubdomains());
             });
 
             #region Database (RavenDb)
