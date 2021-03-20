@@ -46,8 +46,8 @@ namespace TarkovLens.Documents.Items
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonPropertyName("destructability")]
-        public float Destructability { get; set; }
+        [JsonPropertyName("destructibility")]
+        public float Destructibility { get; set; }
     }
 
     public class Penalties
