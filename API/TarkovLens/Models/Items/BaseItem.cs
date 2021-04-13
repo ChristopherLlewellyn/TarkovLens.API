@@ -53,30 +53,16 @@ namespace TarkovLens.Models.Items
         public Grid Grid { get; set; }
         #endregion
 
-        #region Tarkov-Market fields
-        [JsonPropertyName("lastLowestMarketPrice")]
-        public int LastLowestMarketPrice { get; set; }
+        #region Price and Image data
 
         [JsonPropertyName("avg24hPrice")]
         public int Avg24hPrice { get; set; }
 
-        [JsonPropertyName("avg7daysPrice")]
-        public int Avg7daysPrice { get; set; }
-
-        [JsonPropertyName("updated")]
-        public DateTime Updated { get; set; }
-
-        [JsonPropertyName("diff24h")]
-        public double Diff24h { get; set; }
-
-        [JsonPropertyName("diff7days")]
-        public double Diff7days { get; set; }
+        [JsonPropertyName("wikiLink")]
+        public string WikiLink { get; set; }
 
         [JsonPropertyName("icon")]
         public string Icon { get; set; }
-
-        [JsonPropertyName("wikiLink")]
-        public string WikiLink { get; set; }
 
         [JsonPropertyName("img")]
         public string Img { get; set; }

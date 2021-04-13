@@ -20,15 +20,10 @@ namespace TarkovLens.Interfaces
         public int MaxStack { get; set; }
         #endregion
 
-        #region Tarkov-Market fields
-        public int LastLowestMarketPrice { get; set; }
+        #region Price and Image data
         public int Avg24hPrice { get; set; }
-        public int Avg7daysPrice { get; set; }
-        public DateTime Updated { get; set; }
-        public double Diff24h { get; set; }
-        public double Diff7days { get; set; }
-        public string Icon { get; set; }
         public string WikiLink { get; set; }
+        public string Icon { get; set; }
         public string Img { get; set; }
         public string ImgBig { get; set; }
         #endregion
