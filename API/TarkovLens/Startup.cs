@@ -1,3 +1,6 @@
+using GraphQL.Client.Abstractions;
+using GraphQL.Client.Http;
+using GraphQL.Client.Serializer.Newtonsoft;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Microsoft.AspNetCore.Builder;
@@ -16,6 +19,7 @@ using TarkovLens.Indexes;
 using TarkovLens.Services;
 using TarkovLens.Services.Item;
 using TarkovLens.Services.TarkovDatabase;
+using TarkovLens.Services.TarkovTools;
 
 namespace TarkovLens
 {
@@ -113,11 +117,17 @@ namespace TarkovLens
             services.AddScoped<IItemUpdaterService, ItemUpdaterService>();
             services.AddScoped<IItemService, ItemService>();
             services.AddScoped<ICharacterService, CharacterService>();
+            services.AddScoped<ITarkovToolsService, TarkovToolsService>();
             #endregion
 
             #region HTTP Clients
             services.AddHttpClient<ITarkovDatabaseService, TarkovDatabaseService>();
             services.AddHttpClient<ITarkovMarketService, TarkovMarketService>();
+            #endregion
+
+            #region GraphQl Clients
+            var tarkovToolsClient = new GraphQLHttpClient(appSettings.TarkovToolsGQLUrl, new NewtonsoftJsonSerializer());
+            services.AddScoped<IGraphQLClient>(x => tarkovToolsClient);
             #endregion
 
             #region Hangfire automatic jobs
