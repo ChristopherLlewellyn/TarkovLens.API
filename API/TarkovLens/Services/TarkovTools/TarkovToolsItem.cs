@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace TarkovLens.Services.TarkovTools
 {
+    /// <summary>
+    /// Provides price and image data.
+    /// </summary>
     public class TarkovToolsItem
     {
         [JsonProperty("id")]
@@ -19,5 +22,8 @@ namespace TarkovLens.Services.TarkovTools
 
         [JsonProperty("avg24hPrice")]
         public int Avg24hPrice { get; set; }
+
+        [JsonProperty("wikiLink")]
+        public string WikiLink { get; set; }
     }
 }

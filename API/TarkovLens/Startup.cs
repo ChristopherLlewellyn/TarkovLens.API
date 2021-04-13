@@ -125,11 +125,6 @@ namespace TarkovLens
             services.AddHttpClient<ITarkovMarketService, TarkovMarketService>();
             #endregion
 
-            #region GraphQl Clients
-            var tarkovToolsClient = new GraphQLHttpClient(appSettings.TarkovToolsGQLUrl, new NewtonsoftJsonSerializer());
-            services.AddScoped<IGraphQLClient>(x => tarkovToolsClient);
-            #endregion
-
             #region Hangfire automatic jobs
             services.AddHangfire(config =>
                 config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
