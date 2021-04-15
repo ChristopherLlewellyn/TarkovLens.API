@@ -166,8 +166,8 @@ namespace TarkovLens
                 ServerCheckInterval = new System.TimeSpan(0, 1, 0),
                 SchedulePollingInterval = new System.TimeSpan(0, 1, 0)
             });
-            recurringJobManager.AddOrUpdate("Update items",
-                                            () => serviceProvider.GetService<IItemUpdaterService>().UpdateAllItemsAsync(),
+            recurringJobManager.AddOrUpdate("Update Items",
+                                            () => serviceProvider.GetService<IItemUpdaterService>().UpdateItemsTask(),
                                             "15 * * * *", TimeZoneInfo.Local);
             #endregion
 

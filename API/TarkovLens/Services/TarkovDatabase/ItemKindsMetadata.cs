@@ -9,6 +9,8 @@ namespace TarkovLens.Services.TarkovDatabase
     // ItemKindsResponse itemKindsResponse = JsonSerializer.Deserialize<ItemKindsResponse>(myJsonResponse);
     public class ItemKindsMetadata
     {
+        public string Id { get; set; }
+
         [JsonPropertyName("total")]
         public int Total { get; set; }
 

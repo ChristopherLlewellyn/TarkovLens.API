@@ -18,6 +18,7 @@ namespace TarkovLens.Services.Item
     {
         public IItem GetItemById(string id);
         public List<BaseItem> GetItemsByName(string name);
+        public List<T> GetItemsByKind<T>() where T : IItem;
         public List<T> GetItemsByKindAndName<T>(string name) where T : IItem;
         public List<Ammunition> GetAmmunitionByCaliber(string caliber, string name);
     }
@@ -54,14 +55,20 @@ namespace TarkovLens.Services.Item
             items = items.OrderBy(x => x.Name.Length).ToList();
             return items;
         }
-        
+
+        public List<T> GetItemsByKind<T>() where T : IItem
+        {
+            List<T> items = session.Query<T>().ToList();
+            return items;
+        }
+
         /// <summary>
         /// Get items from a particular collection.
         /// </summary>
         /// <typeparam name="T">The collection to query.</typeparam>
         /// <param name="name">Optional: filter the items by name.</param>
         /// <returns>A list of items from the specified collection.</returns>
-        public List<T> GetItemsByKindAndName<T>(string name = null) where T : IItem
+        public List<T> GetItemsByKindAndName<T>(string name) where T : IItem
         {
             var itemsQuery = session.Query<T>();
 
