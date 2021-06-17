@@ -49,7 +49,7 @@ namespace TarkovLens.Services
             var newMetadata = await _tarkovDatabaseService.GetItemKindsMetadataAsync(tarkovDatabaseToken);
 
             // Update items
-            // If Tarkov-Database has modified its data, lets fetch it all and update our data
+            // If Tarkov-Database has modified its data, let's fetch it all and update our data
             if (currentMetadata.IsNull() || newMetadata.Modified > currentMetadata.Modified)
             {
                 await UpdateAllItemAndPriceData(tarkovDatabaseToken);
@@ -325,6 +325,7 @@ namespace TarkovLens.Services
                 {
                     existingItems[i].CopyFrom(item);
                     session.Store(existingItems[i]);
+                    AddMarketPriceTimeSeries(existingItems[i]);
                 }
             }
 
@@ -335,6 +336,7 @@ namespace TarkovLens.Services
                 if (!existingItemsBsgIds.Contains(item.BsgId))
                 {
                     session.Store(item);
+                    AddMarketPriceTimeSeries(item);
                 }
             }
 
@@ -357,6 +359,10 @@ namespace TarkovLens.Services
                 if (tarkovToolsItem.IsNotNull())
                 {
                     item.Avg24hPrice = tarkovToolsItem.Avg24hPrice;
+                    item.LastLowPrice = tarkovToolsItem.LastLowPrice;
+                    item.ChangeLast48h = tarkovToolsItem.ChangeLast48h;
+                    item.Low24hPrice = tarkovToolsItem.Low24hPrice;
+                    item.High24hPrice = tarkovToolsItem.High24hPrice;
                     item.Icon = tarkovToolsItem.IconLink ?? "";
                     item.Img = tarkovToolsItem.IconLink ?? "";
                     item.ImgBig = tarkovToolsItem.ImageLink ?? "";
@@ -365,6 +371,12 @@ namespace TarkovLens.Services
             }
 
             return items;
+        }
+
+        private void AddMarketPriceTimeSeries<T>(T item) where T : IItem
+        {
+            session.TimeSeriesFor(item.Id, "LowestMarketPrice")
+                .Append(DateTime.UtcNow, new[] { (double)item.LastLowPrice });
         }
     }
 }

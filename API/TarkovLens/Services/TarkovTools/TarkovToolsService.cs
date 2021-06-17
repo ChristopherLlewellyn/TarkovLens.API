@@ -6,6 +6,7 @@ using GraphQL.Client.Abstractions;
 using GraphQL.Client.Http;
 using GraphQL.Client.Serializer.Newtonsoft;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace TarkovLens.Services.TarkovTools
 {
@@ -45,7 +46,9 @@ namespace TarkovLens.Services.TarkovTools
         {
             if (tarkovToolsClient == null)
             {
-                tarkovToolsClient = new GraphQLHttpClient(_appSettings.TarkovToolsGQLUrl, new NewtonsoftJsonSerializer());
+                tarkovToolsClient = new GraphQLHttpClient(_appSettings.TarkovToolsGQLUrl, new NewtonsoftJsonSerializer(
+                        new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }
+                    ));
             }
 
             var request = new GraphQLRequest
@@ -59,6 +62,10 @@ namespace TarkovLens.Services.TarkovTools
                         iconLink
                         imageLink
                         avg24hPrice
+                        lastLowPrice
+                        changeLast48h
+                        low24hPrice
+                        high24hPrice
                         wikiLink
                     }
                 }",

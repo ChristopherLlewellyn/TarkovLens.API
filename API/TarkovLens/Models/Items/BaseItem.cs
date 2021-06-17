@@ -58,6 +58,18 @@ namespace TarkovLens.Models.Items
         [JsonPropertyName("avg24hPrice")]
         public int Avg24hPrice { get; set; }
 
+        [JsonPropertyName("lastLowPrice")]
+        public int LastLowPrice { get; set; }
+
+        [JsonPropertyName("changeLast48h")]
+        public decimal ChangeLast48h { get; set; }
+
+        [JsonPropertyName("low24hPrice")]
+        public int Low24hPrice { get; set; }
+
+        [JsonPropertyName("high24hPrice")]
+        public int High24hPrice { get; set; }
+
         [JsonPropertyName("wikiLink")]
         public string WikiLink { get; set; }
 
