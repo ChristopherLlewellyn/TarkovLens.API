@@ -54,6 +54,23 @@ namespace TarkovLens.Controllers
             return Ok(item);
         }
 
+        [HttpGet("bsgid/{id}")]
+        public IActionResult GetByBsgId(string id)
+        {
+            if (id.IsNullOrEmpty())
+            {
+                return BadRequest("Missing parameters: \"id\"");
+            }
+
+            IItem item = _itemService.GetItemByBsgId(id);
+            if (item.IsNull())
+            {
+                return NotFound();
+            }
+
+            return Ok(item);
+        }
+
         [HttpGet("search")]
         public IActionResult Search(string name)
         {
@@ -102,7 +119,7 @@ namespace TarkovLens.Controllers
                     return Ok(armors);
 
                 case KindOfItem.Backpack:
-                    var backpacks = _itemService.GetItemsByKindAndName<Ammunition>(name);
+                    var backpacks = _itemService.GetItemsByKindAndName<Backpack>(name);
                     return Ok(backpacks);
 
                 case KindOfItem.Barter:

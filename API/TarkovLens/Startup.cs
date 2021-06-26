@@ -98,6 +98,7 @@ namespace TarkovLens
             // Register Indexes
             new Item_Smart_Search().Execute(store);
             new Items_ByName_ForAll().Execute(store);
+            new Items_ByBsgId().Execute(store);
             new Characters_ByType().Execute(store);
             #endregion
 
