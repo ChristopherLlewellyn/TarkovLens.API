@@ -15,6 +15,20 @@ namespace TarkovLens.Documents.Items
 
         [JsonPropertyName("penalties")]
         public Penalties Penalties { get; set; }
+
+        [JsonPropertyName("totalSlots")]
+        public int TotalSlots => GetTotalSlots();
+
+        private int GetTotalSlots()
+        {
+            var total = 0;
+            foreach (var grid in Grids)
+            {
+                total += grid.Height * grid.Width;
+            }
+
+            return total;
+        }
     }
 
     public class BackpackGrid
