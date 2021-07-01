@@ -54,8 +54,11 @@ namespace TarkovLens.Services
             {
                 await UpdateAllItemAndPriceData(tarkovDatabaseToken);
 
-                newMetadata.Id = currentMetadata?.Id;
-                session.Store(newMetadata);
+                var documentId = currentMetadata?.Id;
+                currentMetadata.CopyFrom(newMetadata);
+                currentMetadata.Id = documentId;
+
+                session.Store(currentMetadata);
                 session.SaveChanges();
             }
             else
@@ -323,7 +326,10 @@ namespace TarkovLens.Services
                 var item = items.Where(x => x.BsgId == existingItems[i].BsgId).FirstOrDefault();
                 if (item.IsNotNull())
                 {
+                    var documentId = existingItems[i].Id;
                     existingItems[i].CopyFrom(item);
+
+                    existingItems[i].Id = documentId;
                     session.Store(existingItems[i]);
                     AddMarketPriceTimeSeries(existingItems[i]);
                 }

@@ -19,6 +19,18 @@ namespace TarkovLens.Services.TarkovDatabase
 
         [JsonPropertyName("kinds")]
         public KindsMetadata KindsMetadata { get; set; }
+
+        public virtual void CopyFrom(ItemKindsMetadata other)
+        {
+            var props = typeof(ItemKindsMetadata)
+                .GetProperties(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance)
+                .Where(p => p.CanWrite);
+            foreach (var prop in props)
+            {
+                var source = prop.GetValue(other);
+                prop.SetValue(this, source);
+            }
+        }
     }
 
     #region Item kinds
