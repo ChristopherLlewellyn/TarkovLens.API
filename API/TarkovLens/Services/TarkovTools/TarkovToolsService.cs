@@ -61,12 +61,20 @@ namespace TarkovLens.Services.TarkovTools
                         name
                         iconLink
                         imageLink
+                        gridImageLink
                         avg24hPrice
                         lastLowPrice
                         changeLast48h
                         low24hPrice
                         high24hPrice
                         wikiLink
+                        traderPrices {
+                            price
+                            trader {
+                            id
+                            name
+                          }
+                        }
                     }
                 }",
                 Variables = new { type = type.ToString() }

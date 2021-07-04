@@ -20,7 +20,8 @@ namespace TarkovLens.Models.Items
         [JsonPropertyName("blightbusterIcon")]
         public string BlightbusterIcon => $"https://raw.githubusercontent.com/Blightbuster/EfTIcons/master/uid/{BsgId}.png";
 
-        #region Tarkov-Database fields shared between all items
+
+        /// Tarkov-Database fields shared between all items
 
         [JsonPropertyName("_id")]
         public string BsgId { get; set; }
@@ -51,9 +52,9 @@ namespace TarkovLens.Models.Items
 
         [JsonPropertyName("grid")]
         public Grid Grid { get; set; }
-        #endregion
 
-        #region Price and Image data
+
+        /// Price and Image data
 
         [JsonPropertyName("avg24hPrice")]
         public int Avg24hPrice { get; set; }
@@ -81,9 +82,13 @@ namespace TarkovLens.Models.Items
 
         [JsonPropertyName("imgBig")]
         public string ImgBig { get; set; }
-        #endregion
 
-        #region Methods
+        [JsonPropertyName("gridImg")]
+        public string GridImg { get; set; }
+
+        [JsonPropertyName("sellToTraderPrices")]
+        public List<SellToTraderPrice> SellToTraderPrices { get; set; }
+
 
         public virtual void CopyFrom<T>(T other) where T : IItem
         {
@@ -96,7 +101,5 @@ namespace TarkovLens.Models.Items
                 prop.SetValue(this, source);
             }
         }
-
-        #endregion
     }
 }

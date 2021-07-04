@@ -361,7 +361,7 @@ namespace TarkovLens.Services
         {
             foreach (var item in items)
             {
-                var tarkovToolsItem = tarkovToolsItems.Where(x => x.Id == item.BsgId).FirstOrDefault();
+                var tarkovToolsItem = tarkovToolsItems.Where(x => x.BsgId == item.BsgId).FirstOrDefault();
                 if (tarkovToolsItem.IsNotNull())
                 {
                     item.Avg24hPrice = tarkovToolsItem.Avg24hPrice;
@@ -372,7 +372,22 @@ namespace TarkovLens.Services
                     item.Icon = tarkovToolsItem.IconLink ?? "";
                     item.Img = tarkovToolsItem.IconLink ?? "";
                     item.ImgBig = tarkovToolsItem.ImageLink ?? "";
+                    item.GridImg = tarkovToolsItem.GridImageLink ?? "";
                     item.WikiLink = tarkovToolsItem.WikiLink;
+
+                    item.SellToTraderPrices = new List<Models.Items.SellToTraderPrice>();
+                    foreach (var sellToTraderPrice in tarkovToolsItem.SellToTraderPrices)
+                    {
+                        item.SellToTraderPrices.Add(new Models.Items.SellToTraderPrice
+                        {
+                            Price = sellToTraderPrice.Price.IsNotNull() ? sellToTraderPrice.Price : 0,
+                            Trader = new Models.Items.Trader
+                            {
+                                BsgId = sellToTraderPrice.Trader.BsgId,
+                                Name = sellToTraderPrice.Trader.Name
+                            }
+                        });
+                    }
                 }
             }
 

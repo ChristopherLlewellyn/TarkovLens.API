@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
 using TarkovLens.Enums;
+using TarkovLens.Models.Items;
 
 namespace TarkovLens.Interfaces
 {
     public interface IItem
     {
-        #region Properties
         public string Id { get; set; }
         public string BlightbusterIcon { get; }
 
-        #region Tarkov-Database fields shared between all items
+
+        /// Tarkov-Database fields shared between all items
         public string BsgId { get; set; }
         public string Name { get; set; }
         public string ShortName { get; set; }
@@ -18,9 +20,9 @@ namespace TarkovLens.Interfaces
         public float Weight { get; set; }
         public int BasePrice { get; set; }
         public int MaxStack { get; set; }
-        #endregion
 
-        #region Price and Image data
+
+        /// Price and Image data
         public int Avg24hPrice { get; set; }
         public int LastLowPrice { get; set; }
         public decimal ChangeLast48h { get; set; }
@@ -30,12 +32,10 @@ namespace TarkovLens.Interfaces
         public string Icon { get; set; }
         public string Img { get; set; }
         public string ImgBig { get; set; }
-        #endregion
+        public string GridImg { get; set; }
+        public List<SellToTraderPrice> SellToTraderPrices { get; set; }
 
-        #endregion
 
-        #region Methods
         public void CopyFrom<T>(T other) where T : IItem;
-        #endregion
     }
 }

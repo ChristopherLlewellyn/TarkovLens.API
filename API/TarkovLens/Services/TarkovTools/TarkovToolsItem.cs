@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace TarkovLens.Services.TarkovTools
@@ -9,7 +10,7 @@ namespace TarkovLens.Services.TarkovTools
     public class TarkovToolsItem
     {
         [JsonProperty("id")]
-        public string Id { get; set; }
+        public string BsgId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }
@@ -19,6 +20,9 @@ namespace TarkovLens.Services.TarkovTools
 
         [JsonProperty("imageLink")]
         public string ImageLink { get; set; }
+
+        [JsonProperty("gridImageLink")]
+        public string GridImageLink { get; set; }
 
         [JsonProperty("avg24hPrice")]
         public int Avg24hPrice { get; set; }
@@ -37,5 +41,29 @@ namespace TarkovLens.Services.TarkovTools
 
         [JsonProperty("wikiLink")]
         public string WikiLink { get; set; }
+
+        [JsonProperty("traderPrices")]
+        public IEnumerable<SellToTraderPrice> SellToTraderPrices { get; set; }
+    }
+
+    /// <summary>
+    /// The price a trader will give you if you sell the item to them.
+    /// </summary>
+    public class SellToTraderPrice
+    {
+        [JsonProperty("price")]
+        public int Price { get; set; }
+
+        [JsonProperty("trader")]
+        public Trader Trader { get; set; }
+    }
+
+    public class Trader
+    {
+        [JsonProperty("id")]
+        public string BsgId { get; set; }
+
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }
