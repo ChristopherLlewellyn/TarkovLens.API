@@ -33,6 +33,12 @@ namespace TarkovLens.Controllers
             _itemService = itemService;
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return Ok(_itemService.GetAllItems());
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
@@ -81,6 +87,12 @@ namespace TarkovLens.Controllers
             }
 
             return BadRequest("Missing parameters: \"name\"");
+        }
+
+        [HttpGet("kind")]
+        public IActionResult GetKinds()
+        {
+            return Ok(Enum.GetValues(typeof(KindOfItem)));
         }
 
         /// <summary>

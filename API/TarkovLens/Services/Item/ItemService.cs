@@ -16,8 +16,8 @@ namespace TarkovLens.Services.Item
 {
     public interface IItemService
     {
+        public List<IItem> GetAllItems();
         public IItem GetItemById(string id);
-
         public IItem GetItemByBsgId(string bsgId);
         public List<BaseItem> GetItemsByName(string name);
         public List<T> GetItemsByKind<T>() where T : IItem;
@@ -32,6 +32,11 @@ namespace TarkovLens.Services.Item
         public ItemService(IDocumentSession documentSession)
         {
             session = documentSession;
+        }
+
+        public List<IItem> GetAllItems()
+        {
+            return session.Query<IItem, Items_ByBsgId>().ToList();
         }
 
         public IItem GetItemById(string id)
