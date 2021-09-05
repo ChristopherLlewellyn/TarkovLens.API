@@ -83,6 +83,12 @@ namespace TarkovLens.Controllers
             return BadRequest("Missing parameters: \"name\"");
         }
 
+        [HttpGet("kind")]
+        public IActionResult GetKinds()
+        {
+            return Ok(Enum.GetValues(typeof(KindOfItem)));
+        }
+
         /// <summary>
         /// Search items by kind, with optional parameters for filtering by different attributes where possible.
         /// </summary>
