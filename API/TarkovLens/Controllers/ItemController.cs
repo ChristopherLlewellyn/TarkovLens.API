@@ -33,6 +33,12 @@ namespace TarkovLens.Controllers
             _itemService = itemService;
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return Ok(_itemService.GetAllItems());
+        }
+
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
