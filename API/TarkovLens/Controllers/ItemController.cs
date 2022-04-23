@@ -42,11 +42,6 @@ namespace TarkovLens.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            if (id.IsNullOrEmpty())
-            {
-                return BadRequest("Missing parameters: \"id\"");
-            }
-
             // When we pass the Id in the route, we should use "-" instead of "/"
             // Then we should convert it back to a RavenId
             id = id.ReplaceFirst("-", "/");
@@ -60,15 +55,10 @@ namespace TarkovLens.Controllers
             return Ok(item);
         }
 
-        [HttpGet("bsgid/{id}")]
-        public IActionResult GetByBsgId(string id)
+        [HttpGet("bsgid/{bsgId}")]
+        public IActionResult GetByBsgId(string bsgId)
         {
-            if (id.IsNullOrEmpty())
-            {
-                return BadRequest("Missing parameters: \"id\"");
-            }
-
-            IItem item = _itemService.GetItemByBsgId(id);
+            IItem item = _itemService.GetItemByBsgId(bsgId);
             if (item.IsNull())
             {
                 return NotFound();
@@ -80,13 +70,13 @@ namespace TarkovLens.Controllers
         [HttpGet("search")]
         public IActionResult Search(string name)
         {
-            if (name.IsNotNullOrEmpty())
+            if (name.IsNullOrEmpty())
             {
-                var items = _itemService.GetItemsByName(name);
-                return Ok(items);
+                return BadRequest("Missing parameters: \"name\"");
             }
 
-            return BadRequest("Missing parameters: \"name\"");
+            var items = _itemService.GetItemsByName(name);
+            return Ok(items);
         }
 
         [HttpGet("kind")]
@@ -105,11 +95,6 @@ namespace TarkovLens.Controllers
         [HttpGet("kind/{kind}")]
         public IActionResult Kind(KindOfItem kind, string name = null, string caliber = null)
         {
-            if (kind.IsNull())
-            {
-                return BadRequest("Invalid item kind provided.");
-            }
-
             switch (kind)
             {
                 #region Kinds

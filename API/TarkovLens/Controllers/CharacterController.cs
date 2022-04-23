@@ -46,11 +46,6 @@ namespace TarkovLens.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(string id)
         {
-            if (id.IsNullOrEmpty())
-            {
-                return BadRequest("Missing parameters: \"id\"");
-            }
-
             // When we pass the Id in the route, we should use "-" instead of "/"
             // Then we should convert it back to a RavenId
             id = id.ReplaceFirst("-", "/");
@@ -67,11 +62,6 @@ namespace TarkovLens.Controllers
         [HttpGet("type/{type}")]
         public IActionResult GetByType(CharacterType type)
         {
-            if (type.IsNull())
-            {
-                return BadRequest("Missing parameters: \"type\"");
-            }
-
             IEnumerable<ICharacter> characters = _characterService.GetCharactersByType(type);
             characters = characters.OrderBy(x => x.Name);
 
