@@ -7,10 +7,6 @@ pool:
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'build'
-    projects: '**/TarkovLens.csproj'
-
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: true
+    command: 'test'
+    projects: '**/TarkovLens.IntegrationTests.csproj'
+    testRunTitle: 'Integration tests'
