@@ -24,9 +24,9 @@ namespace TarkovLens.Controllers
     {
         private readonly IDocumentSession session;
         private readonly ILogger<ItemController> _logger;
-        private IItemService _itemService;
+        private IItemRepository _itemService;
 
-        public ItemController(ILogger<ItemController> logger, IDocumentSession documentSession, IItemService itemService)
+        public ItemController(ILogger<ItemController> logger, IDocumentSession documentSession, IItemRepository itemService)
         {
             _logger = logger;
             session = documentSession;

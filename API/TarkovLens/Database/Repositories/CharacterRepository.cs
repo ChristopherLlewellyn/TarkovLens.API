@@ -15,7 +15,7 @@ using TarkovLens.Models.Items;
 
 namespace TarkovLens.Services.Item
 {
-    public interface ICharacterService
+    public interface ICharacterRepository
     {
         public ICharacter GetCharacterById(string id);
         public IEnumerable<ICharacter> GetAll();
@@ -23,11 +23,11 @@ namespace TarkovLens.Services.Item
         public IEnumerable<Combatant> GetCombatants();
     }
 
-    public class CharacterService : ICharacterService
+    public class CharacterRepository : ICharacterRepository
     {
         private readonly IDocumentSession session;
 
-        public CharacterService(IDocumentSession documentSession)
+        public CharacterRepository(IDocumentSession documentSession)
         {
             session = documentSession;
         }
