@@ -116,8 +116,8 @@ namespace TarkovLens
             //services.AddScoped<ITarkovDatabaseService, TarkovDatabaseService>(); commented as AddHttpClient registers this service
             //services.AddScoped<ITarkovMarketService, TarkovMarketService>(); commented as AddHttpClient registers this service
             services.AddScoped<IItemUpdaterService, ItemUpdaterService>();
-            services.AddScoped<IItemService, ItemService>();
-            services.AddScoped<ICharacterService, CharacterService>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<ICharacterRepository, CharacterRepository>();
             services.AddScoped<ITarkovToolsService, TarkovToolsService>();
             #endregion
 

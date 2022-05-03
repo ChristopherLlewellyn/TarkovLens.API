@@ -14,7 +14,7 @@ using TarkovLens.Models.Items;
 
 namespace TarkovLens.Services.Item
 {
-    public interface IItemService
+    public interface IItemRepository
     {
         public List<IItem> GetAllItems();
         public IItem GetItemById(string id);
@@ -25,11 +25,11 @@ namespace TarkovLens.Services.Item
         public List<Ammunition> GetAmmunitionByCaliber(string caliber, string name);
     }
 
-    public class ItemService : IItemService
+    public class ItemRepository : IItemRepository
     {
         private readonly IDocumentSession session;
 
-        public ItemService(IDocumentSession documentSession)
+        public ItemRepository(IDocumentSession documentSession)
         {
             session = documentSession;
         }
@@ -82,7 +82,7 @@ namespace TarkovLens.Services.Item
         /// Get items from a particular collection.
         /// </summary>
         /// <typeparam name="T">The collection to query.</typeparam>
-        /// <param name="name">Optional: filter the items by name.</param>
+        /// <param name="name">Filter the items by name.</param>
         /// <returns>A list of items from the specified collection.</returns>
         public List<T> GetItemsByKindAndName<T>(string name) where T : IItem
         {

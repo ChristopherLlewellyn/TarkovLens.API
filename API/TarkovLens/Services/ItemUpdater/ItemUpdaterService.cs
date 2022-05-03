@@ -26,12 +26,12 @@ namespace TarkovLens.Services
         private readonly IDocumentSession session;
         private ITarkovDatabaseService _tarkovDatabaseService;
         private ITarkovToolsService _tarkovToolsService;
-        private IItemService _itemService;
+        private IItemRepository _itemService;
 
         public ItemUpdaterService(IDocumentSession documentSession,
                               ITarkovDatabaseService tarkovDatabaseService,
                               ITarkovToolsService tarkovToolsService,
-                              IItemService itemService)
+                              IItemRepository itemService)
         {
             session = documentSession;
             _tarkovDatabaseService = tarkovDatabaseService;

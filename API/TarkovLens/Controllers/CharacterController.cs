@@ -25,9 +25,9 @@ namespace TarkovLens.Controllers
     {
         private readonly IDocumentSession session;
         private readonly ILogger<CharacterController> _logger;
-        private ICharacterService _characterService;
+        private ICharacterRepository _characterService;
 
-        public CharacterController(ILogger<CharacterController> logger, IDocumentSession documentSession, ICharacterService characterService)
+        public CharacterController(ILogger<CharacterController> logger, IDocumentSession documentSession, ICharacterRepository characterService)
         {
             _logger = logger;
             session = documentSession;
