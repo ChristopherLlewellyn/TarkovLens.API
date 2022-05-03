@@ -88,7 +88,7 @@ namespace TarkovLens
 
             services.AddSingleton<IDocumentStore>(store);
 
-            services.AddScoped<IDocumentSession>(serviceProvider =>
+            services.AddScoped(serviceProvider =>
             {
                 return serviceProvider
                     .GetService<IDocumentStore>()

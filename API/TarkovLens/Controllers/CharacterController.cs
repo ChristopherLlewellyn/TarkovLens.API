@@ -23,21 +23,17 @@ namespace TarkovLens.Controllers
     [Route("[controller]")]
     public class CharacterController : ControllerBase
     {
-        private readonly IDocumentSession session;
-        private readonly ILogger<CharacterController> _logger;
-        private ICharacterRepository _characterService;
+        private ICharacterRepository _characterRepository;
 
-        public CharacterController(ILogger<CharacterController> logger, IDocumentSession documentSession, ICharacterRepository characterService)
+        public CharacterController(ICharacterRepository characterRepository)
         {
-            _logger = logger;
-            session = documentSession;
-            _characterService = characterService;
+            _characterRepository = characterRepository;
         }
 
         [HttpGet]
         public IActionResult GetAll()
         {
-            IEnumerable<ICharacter> characters = _characterService.GetAll();
+            IEnumerable<ICharacter> characters = _characterRepository.GetAll();
             characters = characters.OrderBy(x => x.Name);
 
             return Ok(characters);
@@ -50,7 +46,7 @@ namespace TarkovLens.Controllers
             // Then we should convert it back to a RavenId
             id = id.ReplaceFirst("-", "/");
 
-            ICharacter character = _characterService.GetCharacterById(id);
+            ICharacter character = _characterRepository.GetCharacterById(id);
             if (character.IsNull())
             {
                 return NotFound();
@@ -62,7 +58,7 @@ namespace TarkovLens.Controllers
         [HttpGet("type/{type}")]
         public IActionResult GetByType(CharacterType type)
         {
-            IEnumerable<ICharacter> characters = _characterService.GetCharactersByType(type);
+            IEnumerable<ICharacter> characters = _characterRepository.GetCharactersByType(type);
             characters = characters.OrderBy(x => x.Name);
 
             return Ok(characters);
@@ -71,7 +67,7 @@ namespace TarkovLens.Controllers
         [HttpGet("type/combatant")]
         public IActionResult GetCombatants()
         {
-            IEnumerable<Combatant> combatants = _characterService.GetCombatants();
+            IEnumerable<Combatant> combatants = _characterRepository.GetCombatants();
             combatants = combatants.OrderBy(x => x.Name);
 
             return Ok(combatants);

@@ -26,17 +26,17 @@ namespace TarkovLens.Services
         private readonly IDocumentSession session;
         private ITarkovDatabaseService _tarkovDatabaseService;
         private ITarkovToolsService _tarkovToolsService;
-        private IItemRepository _itemService;
+        private IItemRepository _itemRepository;
 
         public ItemUpdaterService(IDocumentSession documentSession,
                               ITarkovDatabaseService tarkovDatabaseService,
                               ITarkovToolsService tarkovToolsService,
-                              IItemRepository itemService)
+                              IItemRepository itemRepository)
         {
             session = documentSession;
             _tarkovDatabaseService = tarkovDatabaseService;
             _tarkovToolsService = tarkovToolsService;
-            _itemService = itemService;
+            _itemRepository = itemRepository;
         }
 
         [AutomaticRetry(Attempts = 0)]
@@ -45,7 +45,7 @@ namespace TarkovLens.Services
             string tarkovDatabaseToken = await _tarkovDatabaseService.GetNewAuthTokenAsync();
 
             // Check for updates
-            var currentMetadata = session.Query<ItemKindsMetadata>().FirstOrDefault();
+            var currentMetadata = _itemRepository.GetItemKindsMetadata();
             var newMetadata = await _tarkovDatabaseService.GetItemKindsMetadataAsync(tarkovDatabaseToken);
 
             // Update items
@@ -58,8 +58,7 @@ namespace TarkovLens.Services
                 currentMetadata.CopyFrom(newMetadata);
                 currentMetadata.Id = documentId;
 
-                session.Store(currentMetadata);
-                session.SaveChanges();
+                _itemRepository.StoreItemKindsMetadata(currentMetadata, saveChanges: true);
             }
             else
             {
@@ -190,44 +189,44 @@ namespace TarkovLens.Services
 
         private async Task UpdatePriceDataOnly()
         {
-            session.Advanced.MaxNumberOfRequestsPerSession += 20;
+            _itemRepository.IncreaseMaxNumberOfRequestsPerSession(20);
 
             #region Fetch items from our database
-            List<Ammunition> ammunitions = _itemService.GetItemsByKind<Ammunition>();
-            List<Armor> armors = _itemService.GetItemsByKind<Armor>();
-            List<Backpack> backpacks = _itemService.GetItemsByKind<Backpack>();
-            List<Barter> barters = _itemService.GetItemsByKind<Barter>();
-            List<Clothing> clothings = _itemService.GetItemsByKind<Clothing>();
-            List<Common> commons = _itemService.GetItemsByKind<Common>();
-            List<Container> containers = _itemService.GetItemsByKind<Container>();
-            List<Firearm> firearms = _itemService.GetItemsByKind<Firearm>();
-            List<Food> foods = _itemService.GetItemsByKind<Food>();
-            List<Grenade> grenades = _itemService.GetItemsByKind<Grenade>();
-            List<Headphone> headphones = _itemService.GetItemsByKind<Headphone>();
-            List<Key> keys = _itemService.GetItemsByKind<Key>();
-            List<Magazine> magazines = _itemService.GetItemsByKind<Magazine>();
-            List<Map> maps = _itemService.GetItemsByKind<Map>();
-            List<Medical> medicals = _itemService.GetItemsByKind<Medical>();
-            List<Melee> melees = _itemService.GetItemsByKind<Melee>();
-            List<Modification> modifications = _itemService.GetItemsByKind<Modification>();
-            List<ModificationBarrel> modificationBarrels = _itemService.GetItemsByKind<ModificationBarrel>();
-            List<ModificationBipod> modificationBipods = _itemService.GetItemsByKind<ModificationBipod>();
-            List<ModificationCharge> modificationCharges = _itemService.GetItemsByKind<ModificationCharge>();
-            List<ModificationDevice> modificationDevices = _itemService.GetItemsByKind<ModificationDevice>();
-            List<ModificationForegrip> modificationForegrips = _itemService.GetItemsByKind<ModificationForegrip>();
-            List<ModificationGasblock> modificationGasblocks = _itemService.GetItemsByKind<ModificationGasblock>();
-            List<ModificationGoggles> modificationGoggles = _itemService.GetItemsByKind<ModificationGoggles>();
-            List<ModificationHandguard> modificationHandguards = _itemService.GetItemsByKind<ModificationHandguard>();
-            List<ModificationLauncher> modificationLaunchers = _itemService.GetItemsByKind<ModificationLauncher>();
-            List<ModificationMount> modificationMounts = _itemService.GetItemsByKind<ModificationMount>();
-            List<ModificationMuzzle> modificationMuzzles = _itemService.GetItemsByKind<ModificationMuzzle>();
-            List<ModificationPistolgrip> modificationPistolgrips = _itemService.GetItemsByKind<ModificationPistolgrip>();
-            List<ModificationReceiver> modificationReceivers = _itemService.GetItemsByKind<ModificationReceiver>();
-            List<ModificationSight> modificationSights = _itemService.GetItemsByKind<ModificationSight>();
-            List<ModificationSightSpecial> modificationSightSpecials = _itemService.GetItemsByKind<ModificationSightSpecial>();
-            List<ModificationStock> modificationStocks = _itemService.GetItemsByKind<ModificationStock>();
-            List<Money> moneys = _itemService.GetItemsByKind<Money>();
-            List<Tacticalrig> tacticalrigs = _itemService.GetItemsByKind<Tacticalrig>();
+            List<Ammunition> ammunitions = _itemRepository.GetItemsByKind<Ammunition>();
+            List<Armor> armors = _itemRepository.GetItemsByKind<Armor>();
+            List<Backpack> backpacks = _itemRepository.GetItemsByKind<Backpack>();
+            List<Barter> barters = _itemRepository.GetItemsByKind<Barter>();
+            List<Clothing> clothings = _itemRepository.GetItemsByKind<Clothing>();
+            List<Common> commons = _itemRepository.GetItemsByKind<Common>();
+            List<Container> containers = _itemRepository.GetItemsByKind<Container>();
+            List<Firearm> firearms = _itemRepository.GetItemsByKind<Firearm>();
+            List<Food> foods = _itemRepository.GetItemsByKind<Food>();
+            List<Grenade> grenades = _itemRepository.GetItemsByKind<Grenade>();
+            List<Headphone> headphones = _itemRepository.GetItemsByKind<Headphone>();
+            List<Key> keys = _itemRepository.GetItemsByKind<Key>();
+            List<Magazine> magazines = _itemRepository.GetItemsByKind<Magazine>();
+            List<Map> maps = _itemRepository.GetItemsByKind<Map>();
+            List<Medical> medicals = _itemRepository.GetItemsByKind<Medical>();
+            List<Melee> melees = _itemRepository.GetItemsByKind<Melee>();
+            List<Modification> modifications = _itemRepository.GetItemsByKind<Modification>();
+            List<ModificationBarrel> modificationBarrels = _itemRepository.GetItemsByKind<ModificationBarrel>();
+            List<ModificationBipod> modificationBipods = _itemRepository.GetItemsByKind<ModificationBipod>();
+            List<ModificationCharge> modificationCharges = _itemRepository.GetItemsByKind<ModificationCharge>();
+            List<ModificationDevice> modificationDevices = _itemRepository.GetItemsByKind<ModificationDevice>();
+            List<ModificationForegrip> modificationForegrips = _itemRepository.GetItemsByKind<ModificationForegrip>();
+            List<ModificationGasblock> modificationGasblocks = _itemRepository.GetItemsByKind<ModificationGasblock>();
+            List<ModificationGoggles> modificationGoggles = _itemRepository.GetItemsByKind<ModificationGoggles>();
+            List<ModificationHandguard> modificationHandguards = _itemRepository.GetItemsByKind<ModificationHandguard>();
+            List<ModificationLauncher> modificationLaunchers = _itemRepository.GetItemsByKind<ModificationLauncher>();
+            List<ModificationMount> modificationMounts = _itemRepository.GetItemsByKind<ModificationMount>();
+            List<ModificationMuzzle> modificationMuzzles = _itemRepository.GetItemsByKind<ModificationMuzzle>();
+            List<ModificationPistolgrip> modificationPistolgrips = _itemRepository.GetItemsByKind<ModificationPistolgrip>();
+            List<ModificationReceiver> modificationReceivers = _itemRepository.GetItemsByKind<ModificationReceiver>();
+            List<ModificationSight> modificationSights = _itemRepository.GetItemsByKind<ModificationSight>();
+            List<ModificationSightSpecial> modificationSightSpecials = _itemRepository.GetItemsByKind<ModificationSightSpecial>();
+            List<ModificationStock> modificationStocks = _itemRepository.GetItemsByKind<ModificationStock>();
+            List<Money> moneys = _itemRepository.GetItemsByKind<Money>();
+            List<Tacticalrig> tacticalrigs = _itemRepository.GetItemsByKind<Tacticalrig>();
             #endregion
 
             #region Fetch price and image data from Tarkov-Tools and unify with our existing data
@@ -308,17 +307,14 @@ namespace TarkovLens.Services
             CreateUpdateDeleteItems(tacticalrigs);
             #endregion
 
-            session.SaveChanges();
+            _itemRepository.SaveChanges();
         }
 
         private void CreateUpdateDeleteItems<T>(IEnumerable<T> items) where T : IItem
         {
             var bsgIds = items.Select(x => x.BsgId).ToList();
-            session.Advanced.MaxNumberOfRequestsPerSession += 1; // Naughty, but this will only happen for as many different item kinds there are
-            var existingItems = session
-                .Query<T>()
-                .Where(x => x.BsgId.In(bsgIds))
-                .ToList();
+            _itemRepository.IncreaseMaxNumberOfRequestsPerSession(1); // Naughty, but this will only happen for as many different item kinds there are
+            var existingItems = _itemRepository.GetItemsByBsgIds<T>(bsgIds);
 
             // Update existing items
             for (var i = 0; i < existingItems.Count; i++)
@@ -330,8 +326,8 @@ namespace TarkovLens.Services
                     existingItems[i].CopyFrom(item);
 
                     existingItems[i].Id = documentId;
-                    session.Store(existingItems[i]);
-                    AddMarketPriceTimeSeries(existingItems[i]);
+                    _itemRepository.StoreItem(existingItems[i]);
+                    _itemRepository.AddMarketPriceTimeSeries(existingItems[i]);
                 }
             }
 
@@ -341,8 +337,8 @@ namespace TarkovLens.Services
             {
                 if (!existingItemsBsgIds.Contains(item.BsgId))
                 {
-                    session.Store(item);
-                    AddMarketPriceTimeSeries(item);
+                    _itemRepository.StoreItem(item);
+                    _itemRepository.AddMarketPriceTimeSeries(item);
                 }
             }
 
@@ -352,7 +348,7 @@ namespace TarkovLens.Services
             {
                 if (!itemsBsgIds.Contains(existingItem.BsgId))
                 {
-                    session.Delete(existingItem);
+                    _itemRepository.DeleteItem(existingItem);
                 }
             }
         }
@@ -392,12 +388,6 @@ namespace TarkovLens.Services
             }
 
             return items;
-        }
-
-        private void AddMarketPriceTimeSeries<T>(T item) where T : IItem
-        {
-            session.TimeSeriesFor(item.Id, "LowestMarketPrice")
-                .Append(DateTime.UtcNow, new[] { (double)item.LastLowPrice });
         }
     }
 }

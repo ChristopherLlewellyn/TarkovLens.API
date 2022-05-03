@@ -1,9 +1,11 @@
 ﻿using Raven.Client.Documents;
+using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TarkovLens.Database.Repositories;
 using TarkovLens.Documents.Items;
 using TarkovLens.Enums;
 using TarkovLens.Helpers;
@@ -11,18 +13,25 @@ using TarkovLens.Helpers.ExtensionMethods;
 using TarkovLens.Indexes;
 using TarkovLens.Interfaces;
 using TarkovLens.Models.Items;
+using TarkovLens.Services.TarkovDatabase;
 
 namespace TarkovLens.Services.Item
 {
-    public interface IItemRepository
+    public interface IItemRepository : IRepository
     {
         public List<IItem> GetAllItems();
         public IItem GetItemById(string id);
         public IItem GetItemByBsgId(string bsgId);
+        public List<T> GetItemsByBsgIds<T>(IEnumerable<string> bsgIds) where T : IItem;
         public List<BaseItem> GetItemsByName(string name);
         public List<T> GetItemsByKind<T>() where T : IItem;
         public List<T> GetItemsByKindAndName<T>(string name) where T : IItem;
         public List<Ammunition> GetAmmunitionByCaliber(string caliber, string name);
+        public ItemKindsMetadata GetItemKindsMetadata();
+        public void StoreItemKindsMetadata(ItemKindsMetadata metadata, bool saveChanges = false);
+        public void StoreItem<T>(T item, bool saveChanges = false) where T : IItem;
+        public void DeleteItem<T>(T item, bool saveChanges = false) where T : IItem;
+        public void AddMarketPriceTimeSeries<T>(T item) where T : IItem;
     }
 
     public class ItemRepository : IItemRepository
@@ -34,28 +43,25 @@ namespace TarkovLens.Services.Item
             session = documentSession;
         }
 
-        public List<IItem> GetAllItems()
-        {
-            return session.Query<IItem, Items_ByBsgId>().ToList();
-        }
+        public List<IItem> GetAllItems() => session.Query<IItem, Items_ByBsgId>().ToList();
 
         public IItem GetItemById(string id)
         {
             var item = session.Load<IItem>(id);
             if (item.IsNotNull())
+            {
                 session.Advanced.IgnoreChangesFor(item);
+            }
 
             return item;
         }
 
-        public IItem GetItemByBsgId(string bsgId)
+        public IItem GetItemByBsgId(string bsgId) 
         {
-            var item = session
-                .Query<IItem, Items_ByBsgId>()
+            return session.Query<IItem, Items_ByBsgId>()
                 .Where(x => x.BsgId == bsgId)
                 .FirstOrDefault();
-            return item;
-        }
+        } 
 
         public List<BaseItem> GetItemsByName(string name)
         {
@@ -72,11 +78,7 @@ namespace TarkovLens.Services.Item
             return items;
         }
 
-        public List<T> GetItemsByKind<T>() where T : IItem
-        {
-            List<T> items = session.Query<T>().ToList();
-            return items;
-        }
+        public List<T> GetItemsByKind<T>() where T : IItem => session.Query<T>().ToList();
 
         /// <summary>
         /// Get items from a particular collection.
@@ -126,5 +128,52 @@ namespace TarkovLens.Services.Item
             var ammunitions = query.ToList();
             return ammunitions;
         }
+
+        public ItemKindsMetadata GetItemKindsMetadata() => session.Query<ItemKindsMetadata>().FirstOrDefault();
+
+        public void StoreItemKindsMetadata(ItemKindsMetadata metadata, bool saveChanges = false)
+        {
+            session.Store(metadata);
+            if (saveChanges)
+            {
+                session.SaveChanges();
+            }
+        }
+
+        public List<T> GetItemsByBsgIds<T>(IEnumerable<string> bsgIds) where T : IItem
+        {
+            return session.Query<T>()
+            .Where(x => x.BsgId.In(bsgIds))
+            .ToList();
+        }
+
+        public void IncreaseMaxNumberOfRequestsPerSession(int increase) => 
+            session.Advanced.MaxNumberOfRequestsPerSession += increase;
+
+        public void StoreItem<T>(T item, bool saveChanges = false) where T : IItem
+        {
+            session.Store(item);
+            if (saveChanges)
+            {
+                session.SaveChanges();
+            }
+        }
+
+        public void DeleteItem<T>(T item, bool saveChanges = false) where T : IItem
+        {
+            session.Delete(item);
+            if (saveChanges)
+            {
+                session.SaveChanges();
+            }
+        }
+
+        public void AddMarketPriceTimeSeries<T>(T item) where T : IItem
+        {
+            session.TimeSeriesFor(item.Id, "LowestMarketPrice")
+                .Append(DateTime.UtcNow, new[] { (double)item.LastLowPrice });
+        }
+
+        public void SaveChanges() => session.SaveChanges();
     }
 }
