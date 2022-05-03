@@ -9,25 +9,25 @@ variables:
 
 steps:
 - task: DotNetCoreCLI@2
-  displayName: 'Unit Tests - $(buildConfiguration)'
+  displayName: 'Unit Tests'
   inputs:
     command: test
     projects: '**/TarkovLens.UnitTests.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Build $(buildConfiguration)'
+  displayName: 'Build'
   inputs:
     command: 'build' 
     projects: '**/TarkovLens.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish $(buildConfiguration)'
+  displayName: 'Publish'
   inputs:
     command: publish
     publishWebProjects: false
-    projects: 'src/TarkovLens/TarkovLens.csproj'
+    projects: '**/TarkovLens.csproj'
     arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory'
     zipAfterPublish: true
 
