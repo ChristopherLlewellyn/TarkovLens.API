@@ -23,24 +23,6 @@ namespace TarkovLens.UnitTests
         }
 
         [Fact]
-        public void GetAllItems_ShouldReturnItems()
-        {
-            // Arrange
-            IEnumerable<IItem> itemsMock = new List<BaseItem> {
-                new BaseItem() { Id = "Firearms/1-A" },
-                new BaseItem() { Id = "Ammunitions/1-A" }
-            };
-
-            _session.Query<IItem, Items_ByBsgId>().Returns(itemsMock);
-
-            // Act
-            var items = _sut.GetAllItems();
-
-            // Assert
-            items.Should().BeEquivalentTo(itemsMock);
-        }
-
-        [Fact]
         public void GetItemById_ShouldReturnItemWithSpecifiedId()
         {
             // Arrange
