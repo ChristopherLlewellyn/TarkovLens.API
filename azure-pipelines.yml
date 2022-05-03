@@ -4,15 +4,28 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  buildConfiguration: 'Release'
+
 steps:
 - task: DotNetCoreCLI@2
   inputs:
-    command: 'build'
-    projects: '**/TarkovLens.csproj'
+    command: test
+    projects: '**/TarkovLens.UnitTests.csproj'
+    arguments: '--configuration $(buildConfiguration)'
+
+- script: dotnet build --configuration $(buildConfiguration)
+  displayName: 'dotnet build $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: 'dotnet publish --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
   inputs:
-    command: 'publish'
-    publishWebProjects: true
+    command: publish
+    publishWebProjects: false
+    projects: 'src/TarkovLens/TarkovLens.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory'
+    zipAfterPublish: true
+
 
 - task: PublishBuildArtifacts@1
+  displayName: 'publish artifacts'
