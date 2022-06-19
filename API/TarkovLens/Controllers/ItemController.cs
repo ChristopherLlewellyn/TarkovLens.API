@@ -22,21 +22,17 @@ namespace TarkovLens.Controllers
     [Route("[controller]")]
     public class ItemController : ControllerBase
     {
-        private readonly IDocumentSession session;
-        private readonly ILogger<ItemController> _logger;
-        private IItemRepository _itemService;
+        private IItemRepository _itemRepository;
 
-        public ItemController(ILogger<ItemController> logger, IDocumentSession documentSession, IItemRepository itemService)
+        public ItemController(IItemRepository itemRepository)
         {
-            _logger = logger;
-            session = documentSession;
-            _itemService = itemService;
+            _itemRepository = itemRepository;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            return Ok(_itemService.GetAllItems());
+            return Ok(_itemRepository.GetAllItems());
         }
 
         [HttpGet("{id}")]
@@ -46,7 +42,7 @@ namespace TarkovLens.Controllers
             // Then we should convert it back to a RavenId
             id = id.ReplaceFirst("-", "/");
 
-            IItem item = _itemService.GetItemById(id);
+            IItem item = _itemRepository.GetItemById(id);
             if (item.IsNull())
             {
                 return NotFound();
@@ -58,7 +54,7 @@ namespace TarkovLens.Controllers
         [HttpGet("bsgid/{bsgId}")]
         public IActionResult GetByBsgId(string bsgId)
         {
-            IItem item = _itemService.GetItemByBsgId(bsgId);
+            IItem item = _itemRepository.GetItemByBsgId(bsgId);
             if (item.IsNull())
             {
                 return NotFound();
@@ -75,7 +71,7 @@ namespace TarkovLens.Controllers
                 return BadRequest("Missing parameters: \"name\"");
             }
 
-            var items = _itemService.GetItemsByName(name);
+            var items = _itemRepository.GetItemsByName(name);
             return Ok(items);
         }
 
@@ -103,148 +99,148 @@ namespace TarkovLens.Controllers
                     var ammunitions = new List<Ammunition>();
                     if (caliber.IsNotNullOrEmpty())
                     {
-                        ammunitions = _itemService.GetAmmunitionByCaliber(caliber, name);
+                        ammunitions = _itemRepository.GetAmmunitionByCaliber(caliber, name);
                     }
                     else
                     {
-                        ammunitions = _itemService.GetItemsByKindAndName<Ammunition>(name);
+                        ammunitions = _itemRepository.GetItemsByKindAndName<Ammunition>(name);
                     }
                     return Ok(ammunitions);
 
                 case KindOfItem.Armor:
-                    var armors = _itemService.GetItemsByKindAndName<Armor>(name);
+                    var armors = _itemRepository.GetItemsByKindAndName<Armor>(name);
                     return Ok(armors);
 
                 case KindOfItem.Backpack:
-                    var backpacks = _itemService.GetItemsByKindAndName<Backpack>(name);
+                    var backpacks = _itemRepository.GetItemsByKindAndName<Backpack>(name);
                     return Ok(backpacks);
 
                 case KindOfItem.Barter:
-                    var barters = _itemService.GetItemsByKindAndName<Barter>(name);
+                    var barters = _itemRepository.GetItemsByKindAndName<Barter>(name);
                     return Ok(barters);
 
                 case KindOfItem.Clothing:
-                    var clothings = _itemService.GetItemsByKindAndName<Clothing>(name);
+                    var clothings = _itemRepository.GetItemsByKindAndName<Clothing>(name);
                     return Ok(clothings);
 
                 case KindOfItem.Common:
-                    var commons = _itemService.GetItemsByKindAndName<Common>(name);
+                    var commons = _itemRepository.GetItemsByKindAndName<Common>(name);
                     return Ok(commons);
 
                 case KindOfItem.Container:
-                    var containers = _itemService.GetItemsByKindAndName<Container>(name);
+                    var containers = _itemRepository.GetItemsByKindAndName<Container>(name);
                     return Ok(containers);
 
                 case KindOfItem.Firearm:
-                    var firearms = _itemService.GetItemsByKindAndName<Firearm>(name);
+                    var firearms = _itemRepository.GetItemsByKindAndName<Firearm>(name);
                     return Ok(firearms);
 
                 case KindOfItem.Food:
-                    var foods = _itemService.GetItemsByKindAndName<Food>(name);
+                    var foods = _itemRepository.GetItemsByKindAndName<Food>(name);
                     return Ok(foods);
 
                 case KindOfItem.Grenade:
-                    var grenades = _itemService.GetItemsByKindAndName<Grenade>(name);
+                    var grenades = _itemRepository.GetItemsByKindAndName<Grenade>(name);
                     return Ok(grenades);
 
                 case KindOfItem.Headphone:
-                    var headphones = _itemService.GetItemsByKindAndName<Headphone>(name);
+                    var headphones = _itemRepository.GetItemsByKindAndName<Headphone>(name);
                     return Ok(headphones);
 
                 case KindOfItem.Key:
-                    var keys = _itemService.GetItemsByKindAndName<Key>(name);
+                    var keys = _itemRepository.GetItemsByKindAndName<Key>(name);
                     return Ok(keys);
 
                 case KindOfItem.Magazine:
-                    var magazines = _itemService.GetItemsByKindAndName<Magazine>(name);
+                    var magazines = _itemRepository.GetItemsByKindAndName<Magazine>(name);
                     return Ok(magazines);
 
                 case KindOfItem.Map:
-                    var maps = _itemService.GetItemsByKindAndName<Map>(name);
+                    var maps = _itemRepository.GetItemsByKindAndName<Map>(name);
                     return Ok(maps);
 
                 case KindOfItem.Medical:
-                    var medicals = _itemService.GetItemsByKindAndName<Medical>(name);
+                    var medicals = _itemRepository.GetItemsByKindAndName<Medical>(name);
                     return Ok(medicals);
 
                 case KindOfItem.Melee:
-                    var melees = _itemService.GetItemsByKindAndName<Melee>(name);
+                    var melees = _itemRepository.GetItemsByKindAndName<Melee>(name);
                     return Ok(melees);
 
                 case KindOfItem.Modification:
-                    var modifications = _itemService.GetItemsByKindAndName<Modification>(name);
+                    var modifications = _itemRepository.GetItemsByKindAndName<Modification>(name);
                     return Ok(modifications);
 
                 case KindOfItem.ModificationBarrel:
-                    var barrels = _itemService.GetItemsByKindAndName<ModificationBarrel>(name);
+                    var barrels = _itemRepository.GetItemsByKindAndName<ModificationBarrel>(name);
                     return Ok(barrels);
 
                 case KindOfItem.ModificationBipod:
-                    var bipods = _itemService.GetItemsByKindAndName<ModificationBipod>(name);
+                    var bipods = _itemRepository.GetItemsByKindAndName<ModificationBipod>(name);
                     return Ok(bipods);
 
                 case KindOfItem.ModificationCharge:
-                    var charges = _itemService.GetItemsByKindAndName<ModificationCharge>(name);
+                    var charges = _itemRepository.GetItemsByKindAndName<ModificationCharge>(name);
                     return Ok(charges);
 
                 case KindOfItem.ModificationDevice:
-                    var devices = _itemService.GetItemsByKindAndName<ModificationDevice>(name);
+                    var devices = _itemRepository.GetItemsByKindAndName<ModificationDevice>(name);
                     return Ok(devices);
 
                 case KindOfItem.ModificationForegrip:
-                    var foregrips = _itemService.GetItemsByKindAndName<ModificationForegrip>(name);
+                    var foregrips = _itemRepository.GetItemsByKindAndName<ModificationForegrip>(name);
                     return Ok(foregrips);
 
                 case KindOfItem.ModificationGasblock:
-                    var gasblocks = _itemService.GetItemsByKindAndName<ModificationGasblock>(name);
+                    var gasblocks = _itemRepository.GetItemsByKindAndName<ModificationGasblock>(name);
                     return Ok(gasblocks);
 
                 case KindOfItem.ModificationGoggles:
-                    var goggles = _itemService.GetItemsByKindAndName<ModificationGoggles>(name);
+                    var goggles = _itemRepository.GetItemsByKindAndName<ModificationGoggles>(name);
                     return Ok(goggles);
 
                 case KindOfItem.ModificationHandguard:
-                    var handguards = _itemService.GetItemsByKindAndName<ModificationHandguard>(name);
+                    var handguards = _itemRepository.GetItemsByKindAndName<ModificationHandguard>(name);
                     return Ok(handguards);
 
                 case KindOfItem.ModificationLauncher:
-                    var launchers = _itemService.GetItemsByKindAndName<ModificationLauncher>(name);
+                    var launchers = _itemRepository.GetItemsByKindAndName<ModificationLauncher>(name);
                     return Ok(launchers);
 
                 case KindOfItem.ModificationMount:
-                    var mounts = _itemService.GetItemsByKindAndName<ModificationMount>(name);
+                    var mounts = _itemRepository.GetItemsByKindAndName<ModificationMount>(name);
                     return Ok(mounts);
 
                 case KindOfItem.ModificationMuzzle:
-                    var muzzles = _itemService.GetItemsByKindAndName<ModificationMuzzle>(name);
+                    var muzzles = _itemRepository.GetItemsByKindAndName<ModificationMuzzle>(name);
                     return Ok(muzzles);
 
                 case KindOfItem.ModificationPistolgrip:
-                    var pistolgrips = _itemService.GetItemsByKindAndName<ModificationPistolgrip>(name);
+                    var pistolgrips = _itemRepository.GetItemsByKindAndName<ModificationPistolgrip>(name);
                     return Ok(pistolgrips);
 
                 case KindOfItem.ModificationReceiver:
-                    var receivers = _itemService.GetItemsByKindAndName<ModificationReceiver>(name);
+                    var receivers = _itemRepository.GetItemsByKindAndName<ModificationReceiver>(name);
                     return Ok(receivers);
 
                 case KindOfItem.ModificationSight:
-                    var sights = _itemService.GetItemsByKindAndName<ModificationSight>(name);
+                    var sights = _itemRepository.GetItemsByKindAndName<ModificationSight>(name);
                     return Ok(sights);
 
                 case KindOfItem.ModificationSightSpecial:
-                    var specials = _itemService.GetItemsByKindAndName<ModificationSightSpecial>(name);
+                    var specials = _itemRepository.GetItemsByKindAndName<ModificationSightSpecial>(name);
                     return Ok(specials);
 
                 case KindOfItem.ModificationStock:
-                    var stocks = _itemService.GetItemsByKindAndName<ModificationStock>(name);
+                    var stocks = _itemRepository.GetItemsByKindAndName<ModificationStock>(name);
                     return Ok(stocks);
 
                 case KindOfItem.Money:
-                    var moneys = _itemService.GetItemsByKindAndName<Money>(name);
+                    var moneys = _itemRepository.GetItemsByKindAndName<Money>(name);
                     return Ok(moneys);
 
                 case KindOfItem.Tacticalrig:
-                    var tacticalrigs = _itemService.GetItemsByKindAndName<Tacticalrig>(name);
+                    var tacticalrigs = _itemRepository.GetItemsByKindAndName<Tacticalrig>(name);
                     return Ok(tacticalrigs);
 
                 default:

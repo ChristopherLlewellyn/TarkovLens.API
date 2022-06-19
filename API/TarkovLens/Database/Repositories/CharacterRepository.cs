@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TarkovLens.Database.Repositories;
 using TarkovLens.Documents.Characters;
 using TarkovLens.Documents.Items;
 using TarkovLens.Enums;
@@ -15,7 +16,7 @@ using TarkovLens.Models.Items;
 
 namespace TarkovLens.Services.Item
 {
-    public interface ICharacterRepository
+    public interface ICharacterRepository : IRavenRepository
     {
         public ICharacter GetCharacterById(string id);
         public IEnumerable<ICharacter> GetAll();
@@ -64,5 +65,10 @@ namespace TarkovLens.Services.Item
             var combatants = session.Query<Combatant>().ToList();
             return combatants;
         }
+
+        public void IncreaseMaxNumberOfRequestsPerSession(int increase) =>
+            session.Advanced.MaxNumberOfRequestsPerSession += increase;
+
+        public void SaveChanges() => session.SaveChanges();
     }
 }
