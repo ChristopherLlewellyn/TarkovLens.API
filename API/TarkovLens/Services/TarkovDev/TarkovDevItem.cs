@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace TarkovLens.Services.TarkovTools
+namespace TarkovLens.Services.TarkovDev
 {
     /// <summary>
     /// Provides price and image data.
     /// </summary>
-    public class TarkovToolsItem
+    public class TarkovDevItem
     {
         [JsonProperty("id")]
         public string BsgId { get; set; }
@@ -33,6 +33,9 @@ namespace TarkovLens.Services.TarkovTools
         [JsonProperty("changeLast48h")]
         public decimal ChangeLast48h { get; set; }
 
+        [JsonProperty("changeLast48hPercent")]
+        public decimal ChangeLast48hPercent { get; set; }
+
         [JsonProperty("low24hPrice")]
         public int Low24hPrice { get; set; }
 
@@ -42,26 +45,30 @@ namespace TarkovLens.Services.TarkovTools
         [JsonProperty("wikiLink")]
         public string WikiLink { get; set; }
 
-        [JsonProperty("traderPrices")]
-        public IEnumerable<SellToTraderPrice> SellToTraderPrices { get; set; }
+        [JsonProperty("sellFor")]
+        public List<ItemPrice> SellFor { get; set; }
+
+        [JsonProperty("buyFor")]
+        public List<ItemPrice> BuyFor { get; set; }
     }
 
     /// <summary>
     /// The price a trader will give you if you sell the item to them.
     /// </summary>
-    public class SellToTraderPrice
+    public class ItemPrice
     {
         [JsonProperty("price")]
         public int Price { get; set; }
 
-        [JsonProperty("trader")]
-        public Trader Trader { get; set; }
+        [JsonProperty("currency")]
+        public string Currency { get; set; }
+
+        [JsonProperty("vendor")]
+        public Vendor Vendor { get; set; }
     }
 
-    public class Trader
+    public class Vendor
     {
-        [JsonProperty("id")]
-        public string BsgId { get; set; }
 
         [JsonProperty("name")]
         public string Name { get; set; }

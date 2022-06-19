@@ -65,6 +65,9 @@ namespace TarkovLens.Models.Items
         [JsonPropertyName("changeLast48h")]
         public decimal ChangeLast48h { get; set; }
 
+        [JsonPropertyName("changeLast48hPercent")]
+        public decimal ChangeLast48hPercent { get; set; }
+
         [JsonPropertyName("low24hPrice")]
         public int Low24hPrice { get; set; }
 
@@ -87,7 +90,10 @@ namespace TarkovLens.Models.Items
         public string GridImg { get; set; }
 
         [JsonPropertyName("sellToTraderPrices")]
-        public List<SellToTraderPrice> SellToTraderPrices { get; set; }
+        public List<TraderPrice> SellToTraderPrices { get; set; }
+
+        [JsonPropertyName("buyFromTraderPrices")]
+        public List<TraderPrice> BuyFromTraderPrices { get; set; }
 
 
         public virtual void CopyFrom<T>(T other) where T : IItem

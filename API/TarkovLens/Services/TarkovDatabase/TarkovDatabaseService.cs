@@ -92,10 +92,13 @@ namespace TarkovLens.Services.TarkovDatabase
             var itemResponse = JsonSerializer.Deserialize<GetItemsByKindResponse<T>>(json, serializerOptions);
             var items = itemResponse.Items;
 
-            // Safety precaution. Currently (15/12/2020) there is not more than 500 items of one kind,
-            // so we should never exceed 5 requests
+            if (items.IsNull())
+            {
+                return new List<T>();
+            }
+
             var requests = 1;
-            while (items.Count() < itemResponse.Total || requests >= 5)
+            while (items.Count() < itemResponse.Total)
             {
                 response = await httpClient.GetAsync($"item/{kind}?limit={maxLimit}&offset={items.Count()}");
                 response.EnsureSuccessStatusCode();

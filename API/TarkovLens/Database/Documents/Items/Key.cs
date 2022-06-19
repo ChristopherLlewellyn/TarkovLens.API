@@ -24,8 +24,8 @@ namespace TarkovLens.Documents.Items
         public override void CopyFrom<T>(T other)
         {
             // Temporarily store the values of properties that we don't want to overwrite
-            var usage_temp = Usage.ToList();
-            var maps_temp = Maps.ToList();
+            var usage = Usage?.ToList();
+            var maps = Maps?.ToList();
 
             // Copy values
             var props = typeof(T)
@@ -38,8 +38,8 @@ namespace TarkovLens.Documents.Items
             }
 
             // Reinstate the values of properties we don't want to overwrite
-            Usage = usage_temp;
-            Maps = maps_temp;
+            Usage = usage;
+            Maps = maps;
         }
     }
 }

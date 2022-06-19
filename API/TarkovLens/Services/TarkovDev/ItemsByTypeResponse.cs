@@ -4,11 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TarkovLens.Services.TarkovTools
+namespace TarkovLens.Services.TarkovDev
 {
     public class ItemsByTypeResponse
     {
-        [JsonProperty("itemsByType")]
-        public List<TarkovToolsItem> ItemsByType { get; set; }
+        [JsonProperty("items")]
+        public List<TarkovDevItem> Items { get; set; }
     }
 }

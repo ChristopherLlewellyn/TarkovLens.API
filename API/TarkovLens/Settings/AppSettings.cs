@@ -11,7 +11,7 @@ namespace TarkovLens
         public string Version { get; set; }
         public string TarkovDatabaseV2BaseUrl { get; set; }
         public string TarkovMarketV1BaseUrl { get; set; }
-        public string TarkovToolsGQLUrl { get; set; }
+        public string TarkovDevGQLUrl { get; set; }
         public string[] AllowedHosts { get; set; }
     }
 }

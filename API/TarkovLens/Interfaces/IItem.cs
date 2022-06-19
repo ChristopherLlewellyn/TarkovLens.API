@@ -26,6 +26,7 @@ namespace TarkovLens.Interfaces
         public int Avg24hPrice { get; set; }
         public int LastLowPrice { get; set; }
         public decimal ChangeLast48h { get; set; }
+        public decimal ChangeLast48hPercent { get; set; }
         public int Low24hPrice { get; set; }
         public int High24hPrice { get; set; }
         public string WikiLink { get; set; }
@@ -33,8 +34,8 @@ namespace TarkovLens.Interfaces
         public string Img { get; set; }
         public string ImgBig { get; set; }
         public string GridImg { get; set; }
-        public List<SellToTraderPrice> SellToTraderPrices { get; set; }
-
+        public List<TraderPrice> SellToTraderPrices { get; set; }
+        public List<TraderPrice> BuyFromTraderPrices { get; set; }
 
         public void CopyFrom<T>(T other) where T : IItem;
     }

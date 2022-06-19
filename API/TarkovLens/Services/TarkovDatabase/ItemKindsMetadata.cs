@@ -15,7 +15,7 @@ namespace TarkovLens.Services.TarkovDatabase
         public int Total { get; set; }
 
         [JsonPropertyName("modified")]
-        public int Modified { get; set; }
+        public long Modified { get; set; }
 
         [JsonPropertyName("kinds")]
         public KindsMetadata KindsMetadata { get; set; }
@@ -149,6 +149,6 @@ namespace TarkovLens.Services.TarkovDatabase
         public int Count { get; set; }
 
         [JsonPropertyName("modified")]
-        public int Modified { get; set; }
+        public long Modified { get; set; }
     }
 }

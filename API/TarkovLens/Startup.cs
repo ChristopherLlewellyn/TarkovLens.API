@@ -19,7 +19,7 @@ using TarkovLens.Indexes;
 using TarkovLens.Services;
 using TarkovLens.Services.Item;
 using TarkovLens.Services.TarkovDatabase;
-using TarkovLens.Services.TarkovTools;
+using TarkovLens.Services.TarkovDev;
 
 namespace TarkovLens
 {
@@ -113,12 +113,10 @@ namespace TarkovLens
             #endregion
 
             #region Configure DI for application services
-            //services.AddScoped<ITarkovDatabaseService, TarkovDatabaseService>(); commented as AddHttpClient registers this service
-            //services.AddScoped<ITarkovMarketService, TarkovMarketService>(); commented as AddHttpClient registers this service
             services.AddScoped<IItemUpdaterService, ItemUpdaterService>();
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<ICharacterRepository, CharacterRepository>();
-            services.AddScoped<ITarkovToolsService, TarkovToolsService>();
+            services.AddScoped<ITarkovDevService, TarkovDevService>();
             #endregion
 
             #region HTTP Clients
