@@ -16,7 +16,7 @@ using TarkovLens.Models.Items;
 
 namespace TarkovLens.Services.Item
 {
-    public interface ICharacterRepository : IRepository
+    public interface ICharacterRepository : IRavenRepository
     {
         public ICharacter GetCharacterById(string id);
         public IEnumerable<ICharacter> GetAll();

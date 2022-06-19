@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace TarkovLens.Database.Repositories
 {
-    public interface IRepository
+    public interface IRavenRepository
     {
         public void IncreaseMaxNumberOfRequestsPerSession(int increase);
         public void SaveChanges();

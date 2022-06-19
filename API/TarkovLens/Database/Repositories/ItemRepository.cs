@@ -17,7 +17,7 @@ using TarkovLens.Services.TarkovDatabase;
 
 namespace TarkovLens.Services.Item
 {
-    public interface IItemRepository : IRepository
+    public interface IItemRepository : IRavenRepository
     {
         public List<IItem> GetAllItems();
         public IItem GetItemById(string id);
