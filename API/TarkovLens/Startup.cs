@@ -13,6 +13,7 @@ using Raven.Client.Documents.Session;
 using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
+using TarkovLens.Database.Repositories;
 using TarkovLens.Helpers;
 using TarkovLens.Helpers.ExtensionMethods;
 using TarkovLens.Indexes;
@@ -113,10 +114,14 @@ namespace TarkovLens
             #endregion
 
             #region Configure DI for application services
+            // Services
             services.AddScoped<IItemUpdaterService, ItemUpdaterService>();
+            services.AddScoped<ITarkovDevService, TarkovDevService>();
+
+            // Repositories
             services.AddScoped<IItemRepository, ItemRepository>();
             services.AddScoped<ICharacterRepository, CharacterRepository>();
-            services.AddScoped<ITarkovDevService, TarkovDevService>();
+            services.AddScoped<INotesRepository, NotesRepository>();
             #endregion
 
             #region HTTP Clients

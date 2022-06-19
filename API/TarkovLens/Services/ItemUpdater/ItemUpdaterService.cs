@@ -1,9 +1,12 @@
 ﻿using Hangfire;
 using Raven.Client.Documents.Linq;
 using Raven.Client.Documents.Session;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TarkovLens.Database.Documents.Miscellaneous;
+using TarkovLens.Database.Repositories;
 using TarkovLens.Documents.Items;
 using TarkovLens.Enums;
 using TarkovLens.Helpers.ExtensionMethods;
@@ -24,27 +27,32 @@ namespace TarkovLens.Services
         private ITarkovDatabaseService _tarkovDatabaseService;
         private ITarkovDevService _tarkovDevService;
         private IItemRepository _itemRepository;
+        private INotesRepository _notesRepository;
 
         public ItemUpdaterService(ITarkovDatabaseService tarkovDatabaseService,
                               ITarkovDevService tarkovDevService,
-                              IItemRepository itemRepository)
+                              IItemRepository itemRepository,
+                              INotesRepository notesRepository)
         {
             _tarkovDatabaseService = tarkovDatabaseService;
             _tarkovDevService = tarkovDevService;
             _itemRepository = itemRepository;
+            _notesRepository = notesRepository;
         }
 
         [AutomaticRetry(Attempts = 0)]
         public async Task UpdateItemsTask()
         {
-            string tarkovDatabaseToken = await _tarkovDatabaseService.GetNewAuthTokenAsync();
+            // Create a note to be logged to database later
+            Note note = new Note();
 
             // Check for updates
+            string tarkovDatabaseToken = await _tarkovDatabaseService.GetNewAuthTokenAsync();
             var currentMetadata = _itemRepository.GetItemKindsMetadata();
             var newMetadata = await _tarkovDatabaseService.GetItemKindsMetadataAsync(tarkovDatabaseToken);
 
             // Update items
-            // If Tarkov-Database has modified its data, let's fetch it all and update our data
+            // If Tarkov-Database has modified its data, fetch it all and update our data
             if (currentMetadata.IsNull() || newMetadata.Modified > currentMetadata.Modified)
             {
                 await UpdateItems(tarkovDatabaseToken, updateAdditionalDataOnly: false);
@@ -54,11 +62,27 @@ namespace TarkovLens.Services
                 currentMetadata.Id = documentId;
 
                 _itemRepository.StoreItemKindsMetadata(currentMetadata, saveChanges: true);
+                note = new Note
+                {
+                    Id = "Notes/UpdateItemsTask-AllData",
+                    Title = "Item Updater task: all data",
+                    Description = $"Items updated successfully. All data was updated.",
+                    Timestamp = DateTime.UtcNow
+                };
             }
             else
             {
                 await UpdateItems(null, updateAdditionalDataOnly: true);
+                note = new Note
+                {
+                    Id = "Notes/UpdateItemsTask-AdditionalDataOnly",
+                    Title = "Item updater task: additional data only",
+                    Description = $"Items updated successfully. Only additional data was updated (prices/images/etc).",
+                    Timestamp = DateTime.UtcNow
+                };
             }
+
+            _notesRepository.StoreNote(note, saveChanges: true);
         }
 
         private async Task UpdateItems(string tarkovDatabaseToken, bool updateAdditionalDataOnly)
