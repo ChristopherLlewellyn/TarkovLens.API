@@ -57,13 +57,6 @@ namespace TarkovLens
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
 
-            services.AddCors(options =>
-            {
-                options.AddDefaultPolicy(builder => 
-                    builder.WithOrigins(appSettings.AllowedHosts)
-                    .SetIsOriginAllowedToAllowWildcardSubdomains());
-            });
-
             #region Database (RavenDb)
             RavenSettings ravenSettings = new RavenSettings();
             Configuration.Bind(ravenSettings);
@@ -146,6 +139,8 @@ namespace TarkovLens
                               IServiceProvider serviceProvider,
                               IRecurringJobManager recurringJobManager)
         {
+            AppSettings appSettings = Configuration.GetSection("AppSettings").Get<AppSettings>();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -155,7 +150,12 @@ namespace TarkovLens
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors(builder =>
+                builder.WithOrigins(appSettings.AllowedHosts)
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .AllowAnyMethod());
+
 
             app.UseAuthorization();
 
